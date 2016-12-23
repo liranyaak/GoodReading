@@ -9,6 +9,8 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.Color;
 
+
+
 public class BookDisplayGui extends JPanel {
 
 	public JButton ReadReviewButton;

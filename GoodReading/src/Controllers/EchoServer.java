@@ -82,7 +82,7 @@ public class EchoServer extends AbstractServer
 			  System.out.println(result.get(1)+" "+result.get(2)+" "+result.get(3));//+result.get(4)+" "+result.get(5)+" "+result.get(6)+"\n");
 	      }
 		  catch (Exception localException2) {}
-	  }
+	  } 
 	  /*
 	  ArrayList<String> parameters = (ArrayList<String>)msg;
 	  if(((String)parameters.get(0)).equals("1")){ //show all deatils

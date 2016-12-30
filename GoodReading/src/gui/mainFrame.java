@@ -19,13 +19,14 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 
+import Controllers.User;
 import Controllers.loginController;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class mainFrame extends JFrame {
-	
+	private User user;
 	private Signin_gui signin_gui ;
     private Login_gui login_gui;
     private ReaderGui reader_gui;
@@ -49,9 +50,13 @@ public class mainFrame extends JFrame {
 	public mainFrame() {
 		
 		super();
+		
 		Checks check=new Checks();
 		setSize(750,650);
 		boolean mambership=true;///////////////////////////////////////////////////////for cheacking
+		
+		user=new User();
+		
 		login_gui=new Login_gui();
 		signin_gui=new Signin_gui();
 		reader_gui=new ReaderGui("Reader");
@@ -96,12 +101,17 @@ public class mainFrame extends JFrame {
 			
 				if(check.checkInputLogin(login_gui))
 				{
-					setSize(new Dimension(750, 650));
 					
-					openPanelByjob("Reader"); 
+					
+					 
 					loginController login_con=new loginController(login_gui.IDtextPane.getText(), login_gui.passwordField.getText());
-			        // go to controller to check id and password
+			        
+					// go to controller to check id and password
 					// fanc. that open the correct window according the user
+					copyUser(login_con.getUser());
+					openPanelByjob(login_con.getUser().getPrmission());
+					//JOptionPane.showMessageDialog(null,user.getFirstName());
+					
 					
 				}
 				
@@ -425,33 +435,40 @@ public class mainFrame extends JFrame {
 		
 		switch(job)
 		{
-		case "Reader":
+		case "1":                 //Reader
 		{
 			add(reader_gui);
 			reader_gui.setVisible(true);
 			login_gui.setVisible(false);
-		
+			setSize(new Dimension(750, 650));
+			reader_gui.nametxt.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
 		break;
 		}
-		case "Editor":
+		case "2":                    //Editor
 		{
 			add(editor_gui);
 			editor_gui.setVisible(true);
 			login_gui.setVisible(false);
+			setSize(new Dimension(750, 650));
+			editor_gui.nametxt.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
 		break;	
 		}
-		case "Librarian":
+		case "3":                   //Librarian
 		{   
 			add(librarian_gui);
 			librarian_gui.setVisible(true);
 			login_gui.setVisible(false);
+			setSize(new Dimension(750, 650));
+			librarian_gui.nametxt.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
 		break;
 		}
-		case "Library Manager":
-		{
+		case "4":  
+		{                              //Library Manager
 			add(libraryManager_gui);
 			libraryManager_gui.setVisible(true);
 			login_gui.setVisible(false);
+			setSize(new Dimension(750, 650));
+			libraryManager_gui.nametxt.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
 		break;
 		}
 		default:
@@ -461,6 +478,18 @@ public class mainFrame extends JFrame {
 		
 		
 		}
+	}
+	
+	private void copyUser(User u)
+	{
+		user.setId(u.getId());
+		user.setFirstName(u.getFirstName());
+		user.setLastName(u.getLastName());
+		user.setEmail(u.getEmail());
+		user.setpass(u.getpass());
+		user.setCreditCardNum(u.getCreditCardNum());
+		user.setPrmission(u.getPrmission());
+		user.setStatus(u.getStatus());
 	}
 	
 }

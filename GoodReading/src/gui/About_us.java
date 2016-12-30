@@ -11,8 +11,6 @@ public class About_us extends JPanel{
 	 public JButton btnBack;
 	
 	
-
-
 	
 	public About_us() {
 		setBackground(Color.WHITE);

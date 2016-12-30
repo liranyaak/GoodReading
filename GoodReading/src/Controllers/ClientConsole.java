@@ -140,5 +140,6 @@ public class ClientConsole implements ChatIF
     System.out.print("Press 2 to set a new detpartment for workder\n");
     chat.accept();  //Wait for console data
   }
-}
-//End of ConsoleChat class
+
+
+

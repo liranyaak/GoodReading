@@ -2,6 +2,8 @@ package Controllers;
 // This file contains material supporting section 3.7 of the textbook:
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
+import gui.main_gui;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -65,24 +67,31 @@ public class EchoServer extends AbstractServer
   
   public void handleMessageFromClient (Object msg, ConnectionToClient client)
   {
-	 // System.out.println("Message received: " + msg + " from " + client);
-	  	//	ArrayList<Object> temp = msg;
-	  	String type = ((ArrayList<String>) msg).get(0);
+	     // System.out.println("Message received: " + msg + " from " + client);
+	  	 //	ArrayList<Object> temp = msg;
+	   	 String type = ((ArrayList<String>) msg).get(0);
 		 //String type  = (String) temp.get(0);
 		 String return_data = ((ArrayList<String>) msg).get(0);
 		 String table = ((ArrayList<String>) msg).get(1);
 		 String where = ((ArrayList<String>) msg).get(2);
 		 
-	  mysqlConnection mysqlcon = new mysqlConnection();
+	     mysqlConnection mysqlcon = new mysqlConnection();
 	  if(type.equals("select")){
 		  try 
 	      { 
 		  ArrayList<String> result = mysqlConnection.select(table, where, mysqlcon.conn);
-			  client.sendToClient(result.get(0)+" "+result.get(1)+" "+result.get(2)+"\n");
-			  System.out.println(result.get(1)+" "+result.get(2)+" "+result.get(3));//+result.get(4)+" "+result.get(5)+" "+result.get(6)+"\n");
+			  //client.sendToClient(result);
+		  //System.out.println(result);
+		  client.sendToClient(result); 
+			
+			
+
+			 
 	      }
 		  catch (Exception localException2) {}
-	  } 
+		  
+		
+	  }
 	  /*
 	  ArrayList<String> parameters = (ArrayList<String>)msg;
 	  if(((String)parameters.get(0)).equals("1")){ //show all deatils

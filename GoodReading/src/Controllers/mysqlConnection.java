@@ -44,24 +44,27 @@ public static ArrayList<String> select(String table,String where, Connection con
 	 rs = stmt.executeQuery(query);
 	 ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
 	 int colums = rsmd.getColumnCount();
-     System.out.println(colums);
+    // System.out.println(colums);
 
 	 try {
 		 rs.last();
-	     int i =0; 
+	    
 		 int totalRows = rs.getRow();
 	        rs.beforeFirst();
 	        result.add(String.valueOf(totalRows));
 		 if(totalRows>0)
 		 {
 			 while(rs.next()){
-				result.add(rs.getString(1));
-				result.add(rs.getString(2));
-				result.add(rs.getString(3));
-				
+				 for( int i =1;i<=colums;i++ )
+				 {
+				result.add(rs.getString(i));
+				 }	
 			 }
-		 } 
+		 }
+		 else
+			 System.out.println("not found");
 	 }
+	 
 	    catch(Exception ex)  {}
 	 rs.close();
 	}

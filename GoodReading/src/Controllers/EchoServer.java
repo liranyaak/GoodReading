@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.io.*;
 
+import javax.swing.Spring;
+
 import OCSF.AbstractServer;
 import OCSF.ConnectionToClient;
 
@@ -67,30 +69,37 @@ public class EchoServer extends AbstractServer
   
   public void handleMessageFromClient (Object msg, ConnectionToClient client)
   {
-	     // System.out.println("Message received: " + msg + " from " + client);
-	  	 //	ArrayList<Object> temp = msg;
-	   	 String type = ((ArrayList<String>) msg).get(0);
-		 //String type  = (String) temp.get(0);
-		 String return_data = ((ArrayList<String>) msg).get(0);
-		 String table = ((ArrayList<String>) msg).get(1);
-		 String where = ((ArrayList<String>) msg).get(2);
+	  String type = ((ArrayList<String>) msg).get(0);
+	
 		 
 	     mysqlConnection mysqlcon = new mysqlConnection();
-	  if(type.equals("select")){
+	     System.out.println("handle mwssage:"+(ArrayList<String>) msg);
+	     if(type.equals("select")){
 		  try 
 	      { 
+			   	 
+				 String table = ((ArrayList<String>) msg).get(1);
+				 String where = ((ArrayList<String>) msg).get(2);
 		  ArrayList<String> result = mysqlConnection.select(table, where, mysqlcon.conn);
-			  //client.sendToClient(result);
-		  //System.out.println(result);
 		  client.sendToClient(result); 
-			
-			
-
-			 
-	      }
+		  }
 		  catch (Exception localException2) {}
-		  
+	     }
+	  if(type.equals("update")){
+			  try 
+		      { 
+				  System.out.println("update ok");
+				  String table = ((ArrayList<String>) msg).get(1);
+				  String set = ((ArrayList<String>) msg).get(2);
+				   String where = ((ArrayList<String>) msg).get(3);
+				   
+			  int count = mysqlConnection.update(table, set, where, mysqlcon.conn);
+			  client.sendToClient(count);
+			  }
+			  catch (Exception localException2) {
 		
+	  }
+	}
 	  }
 	  /*
 	  ArrayList<String> parameters = (ArrayList<String>)msg;
@@ -138,7 +147,7 @@ public class EchoServer extends AbstractServer
 	       
 		  catch (Exception localException2) {}	  }
 	 */
-	  }
+	  
 
     
   /**

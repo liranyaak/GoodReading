@@ -1,5 +1,6 @@
 package Controllers;
 
+import entity.User;
 import gui.main_gui;
 
 import java.io.IOException;
@@ -40,16 +41,23 @@ public class loginController implements ChatIF {
 	    ArrayList<String> login_input = new ArrayList<String>();
         login_input.add("select"); 									//type of the query
         login_input.add("users");    									//from
-        login_input.add("where user_id="+ID+" and password="+Password);  // where 
-       
+        login_input.add("user_id="+ID+" and password='"+Password+"'");  // where 
         client.handleMessageFromClientUI(login_input);
-      
+       
+           
        while(flag)
       {
     	   
       }
        
-        
+        flag =true;
+        login_input.clear();
+        login_input.add("update");
+        login_input.add("users");
+        login_input.add("status = 1");
+        login_input.add("user_id = "+user.getId());
+        System.out.println(login_input);
+        client.handleMessageFromClientUI(login_input);
 	}
 
 	
@@ -74,7 +82,6 @@ public class loginController implements ChatIF {
 			
 		}
 		
-		System.out.println(user.toString());
 		flag=false;
 		
 	}

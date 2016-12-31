@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.Spring;
+
 import com.mysql.jdbc.ResultSetMetaData;
 
 public class mysqlConnection {
@@ -39,7 +41,7 @@ public static ArrayList<String> select(String table,String where, Connection con
 	{
 	 Statement stmt = con.createStatement();
 	 ResultSet rs;
-	 String query = "SELECT * FROM "+table+" "+where+";";
+	 String query = "SELECT * FROM "+table+" WHERE "+where+";";
 	 
 	 rs = stmt.executeQuery(query);
 	 ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
@@ -60,6 +62,7 @@ public static ArrayList<String> select(String table,String where, Connection con
 				result.add(rs.getString(i));
 				 }	
 			 }
+			 System.out.println("select: "+result.toString());
 		 }
 		 else
 			 System.out.println("not found");
@@ -72,19 +75,37 @@ public static ArrayList<String> select(String table,String where, Connection con
 	return result;
 	}
 
-public static void update(String table,String id,String department, Connection con){
+public static int update(String table,String set,String where, Connection con){
+
+	int count = 0;
 	try
     {
-      PreparedStatement pstmt = con.prepareStatement("UPDATE "+table+" SET department=? WHERE id=?");
-      pstmt.setString(1, department);
-      pstmt.setString(2, id);
-      pstmt.executeUpdate();
+      PreparedStatement pstmt = con.prepareStatement("UPDATE "+table+" SET "+set +" WHERE "+where);
+      count=pstmt.executeUpdate();
     }
     catch (SQLException e)
     {
       e.printStackTrace();
     }
+	return count;
 	}
+
+public static int delete(String table,String rKey,String rValue, Connection con){
+	int count = 0;
+	try
+    {
+		Statement stmt = con.createStatement();
+		String sql = "DELETE FROM " + table + "WHERE "+ rKey +"="+ rValue;
+		count = stmt.executeUpdate(sql);
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+	return count;
+	}
+
+
 
 public static Object PrintMenu(){
 	String result = "Welcome to HR system\nPlease one choose options:\nPress 1 to show all the workders details\nPress 2 to set a new detpartment for workder\n";

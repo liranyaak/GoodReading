@@ -19,11 +19,11 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 
-import Controllers.User;
 import Controllers.loginController;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import entity.User;
 
 public class mainFrame extends JFrame {
 	private User user;
@@ -432,7 +432,7 @@ public class mainFrame extends JFrame {
 	
 	private void openPanelByjob(String job)
 	{
-		
+		System.out.println("openPanelByjob: "+job);
 		switch(job)
 		{
 		case "1":                 //Reader

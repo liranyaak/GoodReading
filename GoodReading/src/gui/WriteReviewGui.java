@@ -33,18 +33,17 @@ public class WriteReviewGui extends JPanel {
 		add(lblNewLabel);
 		
 		JLabel lblPleaseTypeYour = new JLabel("Please Type Your Review:");
-		lblPleaseTypeYour.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblPleaseTypeYour.setBounds(88, 117, 327, 33);
 		add(lblPleaseTypeYour);
 		
 		btnOk = new JButton("Send");
 		btnOk.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		btnOk.setBounds(504, 561, 171, 41);
+		btnOk.setBounds(505, 581, 171, 41);
 		add(btnOk);
 		
 		btnBack = new JButton("Back");
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		btnBack.setBounds(85, 561, 171, 41);
+		btnBack.setBounds(88, 581, 171, 41);
 		add(btnBack);
 
 	}

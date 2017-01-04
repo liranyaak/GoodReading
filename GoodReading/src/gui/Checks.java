@@ -11,6 +11,7 @@ public class Checks
 	 * @param login_gui
 	 * @return false-input invalid ,else-true
 	 */
+	
 	public boolean checkInputLogin(Login_gui login_gui)
 	{
 		int flag=0;

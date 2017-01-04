@@ -23,22 +23,19 @@ public class PaymentOptionGui extends JPanel {
 		add(lblPayment);
 		
 		JLabel lblNewLabel = new JLabel("Please Pick Payment Method");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setBounds(26, 80, 356, 33);
 		add(lblNewLabel);
 		
 		comboBoxPay = new JComboBox(options);
-		comboBoxPay.setBounds(26, 151, 391, 43);
+		comboBoxPay.setBounds(377, 141, 347, 43);
 		add(comboBoxPay);
 		
 		btnOk = new JButton("Ok");
-		btnOk.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnOk.setBounds(533, 518, 172, 53);
+		btnOk.setBounds(521, 495, 171, 41);
 		add(btnOk);
 		
 	    btnBack = new JButton("Back");
-	    btnBack.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnBack.setBounds(26, 518, 178, 54);
+		btnBack.setBounds(64, 495, 171, 41);
 		add(btnBack);
 
 	}

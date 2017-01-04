@@ -6,7 +6,6 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
-import javax.swing.JTextField;
 
 public class ReaderGui extends JPanel {
 
@@ -15,10 +14,8 @@ public class ReaderGui extends JPanel {
 	public JButton btnBookSearch;
 	public JButton NotificationButton;
 	public JButton btnWriteAReview;
-	public JLabel nametxt;
-	
+	public JLabel lblHi;
 	/**
-	 *
 	 * Create the panel.
 	 */
 	public ReaderGui(String s) {
@@ -52,12 +49,15 @@ public class ReaderGui extends JPanel {
 		btnLogout.setBounds(534, 564, 171, 41);
 		add(btnLogout);
 		
-		 nametxt = new JLabel("New label");
-		nametxt.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		nametxt.setBounds(559, 42, 181, 20);
-		add(nametxt);
+		lblHi = new JLabel("HI!");
+		lblHi.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblHi.setBounds(563, 47, 187, 24);
+		add(lblHi);
+		
+		
 	
 	}
+	
 	}
 	
 

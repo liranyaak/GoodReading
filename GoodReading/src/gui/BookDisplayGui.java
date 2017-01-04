@@ -17,6 +17,7 @@ public class BookDisplayGui extends JPanel {
 	public JButton PurchaseButton;
 	public JTextPane textPaneBookName,textPaneAuters,textPaneSubjectName,textPaneCost,textPaneRangeName,textPaneLanguage;
 	public JTextArea textAreaTableOfContent,textAreaSummery;
+	public JLabel lblFirstTitle; 
 	/**
 	 * Create the panel.
 	 */
@@ -24,10 +25,10 @@ public class BookDisplayGui extends JPanel {
 		setBackground(Color.WHITE);
 		setLayout(null);
 		String s =new String();
-		JLabel lblBookInfoCard = new JLabel("Book Info Card");
-		lblBookInfoCard.setFont(new Font("Stencil", Font.PLAIN, 42));
-		lblBookInfoCard.setBounds(201, 0, 349, 51);
-		add(lblBookInfoCard);
+		lblFirstTitle = new JLabel("Book Info Card");
+		lblFirstTitle.setFont(new Font("Stencil", Font.PLAIN, 42));
+		lblFirstTitle.setBounds(206, 14, 349, 51);
+		add(lblFirstTitle);
 		
 		JLabel lblTitle = new JLabel("Title:");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -123,17 +124,17 @@ public class BookDisplayGui extends JPanel {
 		
 		PurchaseButton = new JButton("Purchase");
 		PurchaseButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		PurchaseButton.setBounds(554, 553, 171, 41);
+		PurchaseButton.setBounds(567, 568, 171, 41);
 		add(PurchaseButton);
 		
 	    ReadReviewButton = new JButton("Read Review");
 		ReadReviewButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		ReadReviewButton.setBounds(379, 553, 171, 41);
+		ReadReviewButton.setBounds(384, 568, 171, 41);
 		add(ReadReviewButton);
 		
 		BackButton = new JButton("Back");
 		BackButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		BackButton.setBounds(13, 553, 171, 41);
+		BackButton.setBounds(13, 568, 171, 41);
 		add(BackButton);
 
 	}

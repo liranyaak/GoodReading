@@ -17,6 +17,7 @@ public class SearchBookGui extends JPanel {
 	public JTextPane KeyWordstextPane;
 	public JButton BackButton;
 	public JButton SearchbtnNewButton;
+	public JLabel lblBookSearch;
 	
 	/**
 	 * Create the panel.
@@ -25,7 +26,7 @@ public class SearchBookGui extends JPanel {
 		setBackground(Color.WHITE);
 		setLayout(null);
 		
-		JLabel lblBookSearch = new JLabel("Book Search");
+		lblBookSearch = new JLabel("Book Search");
 		lblBookSearch.setFont(new Font("Stencil", Font.PLAIN, 42));
 		lblBookSearch.setBounds(191, 61, 303, 67);
 		add(lblBookSearch);

@@ -10,32 +10,16 @@ import javax.swing.Spring;
  
 
 
-public class loginController implements ChatIF {
+ 
+ 
+public class loginController extends Main_con {
 	
-	
-	private int id;
-	private String password;
-	public static ChatClient client = null;
-	final public static int DEFAULT_PORT = 5555;
-	 private   User user;
 	volatile static boolean flag=true;
-	static int port = 5555;
-	String host="localhost";
+	 private   User user;
 	  
 	public loginController(String ID,String Password ) /// change password and to user class
 	{
-	   
-		try 
-	    {
-	       client = new ChatClient(host, port, this);
-	    } 
-	    catch(IOException exception) 
-	    {
-	      System.out.println("Error: Can't setup connection!"
-	                + " Terminating client.");
-	      System.exit(1);
-	    }
-
+		super();
 		user=new User();
 	
 	    ArrayList<String> login_input = new ArrayList<String>();
@@ -54,7 +38,7 @@ public class loginController implements ChatIF {
         login_input.clear();
         login_input.add("update");
         login_input.add("users");
-        login_input.add("status = 1");
+        login_input.add("log_in = 1");
         login_input.add("user_id = "+user.getId());
         System.out.println(login_input);
         client.handleMessageFromClientUI(login_input);
@@ -72,9 +56,13 @@ public class loginController implements ChatIF {
 		user.setFirstName(((ArrayList<String>) message).get(2));
 		user.setLastName(((ArrayList<String>) message).get(3));
 		user.setpass(((ArrayList<String>) message).get(4));
-		user.setCreditCardNum(((ArrayList<String>) message).get(5));
-		user.setStatus(((ArrayList<String>) message).get(6));
+		user.setEmail(((ArrayList<String>) message).get(5));
+		user.setCreditCardNum(((ArrayList<String>) message).get(6));
+		user.setlogin(((ArrayList<String>) message).get(7));
 		user.setPrmission(((ArrayList<String>) message).get(8));
+		user.setaccout_type(((ArrayList<String>) message).get(9));
+		user.setstatus_blocked(((ArrayList<String>) message).get(10));
+		System.out.println("test"+user.toString());
 		}
 		else
 		{

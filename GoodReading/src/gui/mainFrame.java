@@ -18,15 +18,18 @@ import java.awt.SystemColor;
 import java.awt.Font;
 
 import javax.swing.JButton;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
+import entity.User;
+import Controllers.LogoutController;
 import Controllers.loginController;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import entity.User;
 
 public class mainFrame extends JFrame {
-	private User user;
+    private User user;
 	private Signin_gui signin_gui ;
     private Login_gui login_gui;
     private ReaderGui reader_gui;
@@ -43,22 +46,39 @@ public class mainFrame extends JFrame {
 	private PaymentOptionGui paymentOptionsGui;
 	private ChooseFormatGui chooseFormatGui;
 	private WriteReviewGui writeReviewGui;
+	private ReviewToCheckGui reviewToCheackGui;
+	private ReviewCheackingGui reviewCheckingGui;
+	private LibrarianBookDisplayGui librarianBookDisplayGui;
+	private AddBookGui addBookGui;
+	private PaymentRequestListGui paymantRequstListGui;
+	private PaymentRequstDisplayGui paymentRequstDisplayGui;
+	private SgininRequstListGui sgininRequsrtListGui;
+	private SginInRequestDisplayGui sgininRequstDisplayGui;
+	private AddAccuntGui addAccuntGui;
+	private SearchAccuntGui searchAccuntGui;
+	private EditAccuntGui editAccuntGui;
+	private ManagerBookDisplayGui managerBookDisplayGui;
+	private ManagerEditAccuntGui managerEditAccuntGui;
+	private ReportManuGui reportManuGui;
+	private ReportSearchBookGui reportSearchBookGui;
+	private ReportSearchAccuntGui reportSearchAccuntGui;
+	private ReportDisplayReaderGui reportDisplayReaderGui;
+	private SearchBookResultGui reportSearchBookResultGui;
+	private ReportBookDisplayGui reportBookDisplayGui;
 	private About_us about_us;
 	
-	
-	
+	private int permmision=0;
 	public mainFrame() {
 		
 		super();
-		
+		user=new User();
 		Checks check=new Checks();
 		setSize(750,650);
-		boolean mambership=true;///////////////////////////////////////////////////////for cheacking
-		
-		user=new User();
-		
+		///////////status represnet 1-reader,2-editor,3-librerian,4-libarary mananger
+		boolean mambership=false;///////////////////////////////////////////////////////for cheacking
 		login_gui=new Login_gui();
 		signin_gui=new Signin_gui();
+		about_us=new About_us();
 		reader_gui=new ReaderGui("Reader");
 		editor_gui=new EditorGui("Editor");
 		librarian_gui=new LibrarianGui("Librarian");
@@ -73,24 +93,38 @@ public class mainFrame extends JFrame {
 		paymentOptionsGui = new PaymentOptionGui();
 		chooseFormatGui =new ChooseFormatGui();
 		writeReviewGui=new WriteReviewGui();
-		about_us=new About_us();
-		
+		reviewToCheackGui= new ReviewToCheckGui();
+		reviewCheckingGui =new ReviewCheackingGui();
+		librarianBookDisplayGui= new LibrarianBookDisplayGui();
+		addBookGui = new AddBookGui();
+		paymantRequstListGui=new PaymentRequestListGui();
+		paymentRequstDisplayGui= new PaymentRequstDisplayGui();
+	    sgininRequsrtListGui =new SgininRequstListGui();
+	    sgininRequstDisplayGui=new SginInRequestDisplayGui();
+	    addAccuntGui= new AddAccuntGui();
+	    searchAccuntGui=new SearchAccuntGui();
+	    editAccuntGui=new EditAccuntGui();
+	    managerBookDisplayGui=new ManagerBookDisplayGui();
+	    managerEditAccuntGui=new ManagerEditAccuntGui();
+	    reportManuGui=new ReportManuGui();
+	    reportSearchBookGui= new ReportSearchBookGui();
+	    reportSearchAccuntGui= new ReportSearchAccuntGui();
+	    reportDisplayReaderGui=new ReportDisplayReaderGui();
+	    reportSearchBookResultGui=new SearchBookResultGui();
+	    reportBookDisplayGui=new ReportBookDisplayGui();
 		add(login_gui); // place the first panel in the frame 
 		add(signin_gui);
 		
-		//add(reader_gui);
-		//add(editor_gui);
-		//add(librarian_gui);
-		//add(libraryManager_gui);
+		
 		searchBookResultGui.setVisible(false);
 		signin_gui.setVisible(false);
-		//reader_gui.setVisible(false);
-		//editor_gui.setVisible(false);
-		//librarian_gui.setVisible(false);
-		//libraryManager_gui.setVisible(false);
+
 		
 		setTitle("Good Reading");
 	   
+		
+		/////////////////////////////////////reader//////////////////////////////////
+		
 		/////// log in button////// 
 		login_gui.loginButton.addActionListener(new ActionListener()
 		{
@@ -101,18 +135,10 @@ public class mainFrame extends JFrame {
 			
 				if(check.checkInputLogin(login_gui))
 				{
-					
-					
-					 
 					loginController login_con=new loginController(login_gui.IDtextPane.getText(), login_gui.passwordField.getText());
-			        
-					// go to controller to check id and password
-					// fanc. that open the correct window according the user
+					permmision=Integer.parseInt(login_con.getUser().getPrmission());
 					copyUser(login_con.getUser());
-					openPanelByjob(login_con.getUser().getPrmission());
-					//JOptionPane.showMessageDialog(null,user.getFirstName());
-					
-					
+					openPanelByjob();
 				}
 				
 			}
@@ -131,7 +157,8 @@ public class mainFrame extends JFrame {
 				signin_gui.setVisible(true);
 			}
 		} );	
-		 login_gui.btnAbout.addActionListener(new ActionListener() {
+		
+		login_gui.btnAbout.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -139,14 +166,15 @@ public class mainFrame extends JFrame {
 				add(about_us);
 				about_us.setVisible(true);
 				login_gui.setVisible(false);
+				
 			}
 		});
 		
 		//////////////////////////
 		
-		 ////////// about as/////////
-		 
-		 about_us.btnBack.addActionListener(new ActionListener() {
+		////////////////About us///////////////////
+		
+		about_us.btnBack.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -155,7 +183,8 @@ public class mainFrame extends JFrame {
 				login_gui.setVisible(true);
 			}
 		});
-		 
+		//////////////////////////////////////////////
+		
 		//////// sign in button////////
 		signin_gui.BackButton.addActionListener(new ActionListener() {
 			
@@ -188,6 +217,9 @@ public class mainFrame extends JFrame {
 				// TODO Auto-generated method stub
 			
 				// change in db status of user
+				LogoutController logoutController=new LogoutController(user.getId());
+				login_gui.IDtextPane.setText("");
+				login_gui.passwordField.setText("");
 				setSize(new Dimension(450,450));
 				login_gui.setVisible(true);
 				reader_gui.setVisible(false);
@@ -229,22 +261,31 @@ public class mainFrame extends JFrame {
 				
 			}
 		});
-		///////////////////////////////////////////////
-		
-		
-         ///////////////////////notificaiton Window Gui//////////////
 		notificaitonWindowGui.btnBack.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
 				notificaitonWindowGui.setVisible(false);
-				reader_gui.setVisible(true);
+				if(permmision==1){
+				add(reader_gui);
+				reader_gui.setVisible(true);}
+				else if(permmision==2){
+					add(editor_gui);
+					editor_gui.setVisible(true);}
+				else if(permmision==3){
+					add(librarian_gui);
+					librarian_gui.setVisible(true);}
+				else{
+					add(libraryManager_gui);
+					libraryManager_gui.setVisible(true);
+				}
+				}
 				
-			}
 		});
 		
-		/////////////////////////////////////////////////////////
+			
+		
+		/////////////////////////////
 		
 		///////////// Book Search ////////////
 		searchBookGui.BackButton.addActionListener(new ActionListener() {
@@ -252,7 +293,10 @@ public class mainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				reader_gui.setVisible(true);
+				if(permmision==1)reader_gui.setVisible(true);
+				else if(permmision==2)editor_gui.setVisible(true);
+				else if(permmision==3)librarian_gui.setVisible(true);
+				else libraryManager_gui.setVisible(true);
 				searchBookGui.setVisible(false);
 			}
 		});
@@ -284,7 +328,10 @@ public class mainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				bookListToReviewGui.setVisible(false);
-				reader_gui.setVisible(true);
+				if(permmision==1)reader_gui.setVisible(true);
+				else if(permmision==2)editor_gui.setVisible(true);
+				else if(permmision==3)librarian_gui.setVisible(true);
+				else libraryManager_gui.setVisible(true);
 				
 			}
 		});
@@ -331,13 +378,23 @@ public class mainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				/////////////////////////////////////////////////////////////////////////
+				if((permmision==1)||(permmision==2)){
 				add(bookDisplayGui);
 				bookDisplayGui.setVisible(true);
+				}
+				else if(permmision==3){
+					add(librarianBookDisplayGui);
+					librarianBookDisplayGui.setVisible(true);
+				}
+				else{
+					add(managerBookDisplayGui);
+					managerBookDisplayGui.setVisible(true);
+				}
 				searchBookResultGui.setVisible(false);
+				
 			}
 		});
-	   
-        ///////////// book display gui////////////////
 	    bookDisplayGui.ReadReviewButton.addActionListener(new ActionListener(){
 	    	@Override
 			public void actionPerformed(ActionEvent e) {
@@ -347,11 +404,38 @@ public class mainFrame extends JFrame {
 				reviewsForBookList.setVisible(true);
 			}
 		});
+	    reviewsForBookList.btnOk.addActionListener(new ActionListener(){
+	    	@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				add(reviewDisplayGui);
+				reviewDisplayGui.setVisible(true);
+				reviewsForBookList.setVisible(false);
+			}
+		});
+	    reviewDisplayGui.btnBack.addActionListener(new ActionListener(){
+	    	@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				add(reviewsForBookList);
+				reviewDisplayGui.setVisible(false);
+				reviewsForBookList.setVisible(true);
+			}
+		});
+	    reviewsForBookList.btnBack.addActionListener(new ActionListener(){
+	    	@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				add(bookDisplayGui);
+				bookDisplayGui.setVisible(true);
+				reviewsForBookList.setVisible(false);
+			}
+		});
 	    bookDisplayGui.PurchaseButton.addActionListener(new ActionListener(){
 	    	@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-	    		if(mambership==true){
+	    		if(mambership==false){
 				add(paymentOptionsGui);
 				bookDisplayGui.setVisible(false);
 				paymentOptionsGui.setVisible(true);
@@ -363,52 +447,7 @@ public class mainFrame extends JFrame {
 	    		}
 			}
 		});
-        bookDisplayGui.BackButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				searchBookResultGui.setVisible(true);
-				bookDisplayGui.setVisible(false);
-			}
-		} );
-	
-        ///////////////////////////////////////////////
-	    
-        ////////////////// read review from book list/////////////
-        reviewsForBookList.btnOk.addActionListener(new ActionListener(){
-	    	@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				add(reviewDisplayGui);
-				reviewDisplayGui.setVisible(true);
-				reviewsForBookList.setVisible(false);
-			}
-		});
-        reviewsForBookList.btnBack.addActionListener(new ActionListener(){
-	    	@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				add(bookDisplayGui);
-				bookDisplayGui.setVisible(true);
-				reviewsForBookList.setVisible(false);
-			}
-		});
-	    
-        /////////////////// display review gui/////////
-	    reviewDisplayGui.btnBack.addActionListener(new ActionListener(){
-	    	@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				//add(reviewsForBookList);
-				reviewDisplayGui.setVisible(false);
-				reviewsForBookList.setVisible(true);
-			}
-		});
-	    ///////////////////////////////////////////////
-	  
-	    /////////////////////payment gui/////////////
-	   paymentOptionsGui.btnOk.addActionListener(new ActionListener(){
+	    paymentOptionsGui.btnOk.addActionListener(new ActionListener(){
 	    	@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -417,7 +456,7 @@ public class mainFrame extends JFrame {
 			     paymentOptionsGui.setVisible(false);
 			}
 		});
-	   paymentOptionsGui.btnBack.addActionListener(new ActionListener(){
+	    paymentOptionsGui.btnBack.addActionListener(new ActionListener(){
 	    	@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -425,15 +464,653 @@ public class mainFrame extends JFrame {
 	    		bookDisplayGui.setVisible(true);
 			     paymentOptionsGui.setVisible(false);
 			}
-		});   
-             /////////////////////////////////////////////////
-	} 
+		});
+	  
+	   ///////////////////////////////////////////
+	    
+	   //////////////// Book Display ////////////
+	    bookDisplayGui.BackButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				searchBookResultGui.setVisible(true);
+				bookDisplayGui.setVisible(false);
+			}
+		} );
+       ////////////////////////////////////////
+	   ///////////////Editor/////////////////////
+	   editor_gui.btnBookSearch.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			add(searchBookGui);
+			editor_gui.setVisible(false);
+			searchBookGui.setVisible(true);
+		}
+	});
+	   editor_gui.btnWriteAReview.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			add(bookListToReviewGui);
+			bookListToReviewGui.setVisible(true);
+			editor_gui.setVisible(false);
+		}
+	});
+	   editor_gui.btnLogout.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+		
+			// change in db status of user
+			LogoutController logoutController=new LogoutController(user.getId());
+			login_gui.IDtextPane.setText("");
+			login_gui.passwordField.setText("");
+			setSize(new Dimension(450,450));
+			login_gui.setVisible(true);
+			editor_gui.setVisible(false);
+			
+		} 
+	});
+	   editor_gui.NotificationButton.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			add(notificaitonWindowGui);
+			notificaitonWindowGui.setVisible(true);
+			editor_gui.setVisible(false);
+			
+		}
+	});
+       editor_gui.btnCheckReview.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			add(reviewToCheackGui);
+			reviewToCheackGui.setVisible(true);
+			editor_gui.setVisible(false);
+			
+		}
+	});	
+       ////////////////////////////////////////////////
+       /////////////review list to check//////////////
+       reviewToCheackGui.btnBack.addActionListener(new ActionListener() {
+   		
+   		@Override
+   		public void actionPerformed(ActionEvent e) {
+   			// TODO Auto-generated method stub
+   			
+   			reviewToCheackGui.setVisible(false);
+   			if(permmision==2)editor_gui.setVisible(true);
+   			if(permmision==3)librarian_gui.setVisible(true);
+   			else libraryManager_gui.setVisible(true);
+   			
+   		}
+   	});	
+       reviewToCheackGui.btnOk.addActionListener(new ActionListener() {
+
+      		
+      		@Override
+      		public void actionPerformed(ActionEvent e) {
+      			// TODO Auto-generated method stub
+      			
+      			reviewToCheackGui.setVisible(false);
+      			reviewCheckingGui.setVisible(true);
+      			add(reviewCheckingGui);
+      			
+      		}
+      	});
+       //////////////////////////////////////////////
+       ///////review checking///////////////////////
+       reviewCheckingGui.btnBack.addActionListener(new ActionListener() {
+     		@Override
+     		public void actionPerformed(ActionEvent e) {
+     			// TODO Auto-generated method stub
+     			
+     			reviewToCheackGui.setVisible(true);
+     			reviewCheckingGui.setVisible(false);
+     			add(reviewToCheackGui);
+     			
+     		}
+     	});
+       ///////////////////////////////////////////////////////////////////
+      //////////////////////////librarianGui//////////////////////////////
+       librarian_gui.btnBookSearch.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				add(searchBookGui);
+				librarian_gui.setVisible(false);
+				searchBookGui.setVisible(true);
+				
+			}
+		} );
+       librarian_gui.btnWriteAReview.addActionListener(new ActionListener() {
+   		
+   		@Override
+   		public void actionPerformed(ActionEvent e) {
+   			// TODO Auto-generated method stub
+   			add(bookListToReviewGui);
+   			bookListToReviewGui.setVisible(true);
+   			librarian_gui.setVisible(false);
+   		}
+   	});
+       librarian_gui.btnLogout.addActionListener(new ActionListener() {
+   		
+   		@Override
+   		public void actionPerformed(ActionEvent e) {
+   			// TODO Auto-generated method stub
+   		
+   			// change in db status of user
+   			LogoutController logoutController=new LogoutController(user.getId());
+   			login_gui.IDtextPane.setText("");
+			login_gui.passwordField.setText("");
+   			setSize(new Dimension(450,450));
+   			login_gui.setVisible(true);
+   			librarian_gui.setVisible(false);
+   			
+   		} 
+   	});
+       librarian_gui.NotificationButton.addActionListener(new ActionListener() {
+   		
+   		@Override
+   		public void actionPerformed(ActionEvent e) {
+   			// TODO Auto-generated method stub
+   			add(notificaitonWindowGui);
+   			notificaitonWindowGui.setVisible(true);
+   			librarian_gui.setVisible(false);
+   			
+   		}
+   	});
+       librarian_gui.btnCheckReview.addActionListener(new ActionListener() {
+   		
+   		@Override
+   		public void actionPerformed(ActionEvent e) {
+   			// TODO Auto-generated method stub
+   			add(reviewToCheackGui);
+   			reviewToCheackGui.setVisible(true);
+   			librarian_gui.setVisible(false);
+   			
+   		}
+   	});	
+       librarian_gui.btnAddBook.addActionListener(new ActionListener() {
+      		
+      		@Override
+      		public void actionPerformed(ActionEvent e) {
+      			// TODO Auto-generated method stub
+      			add(addBookGui);
+      			addBookGui.setVisible(true);
+      			librarian_gui.setVisible(false);
+      			
+      		}
+      	});	
+       librarian_gui.btnPayReq.addActionListener(new ActionListener() {
+     		
+     		@Override
+     		public void actionPerformed(ActionEvent e) {
+     			// TODO Auto-generated method stub
+     			add(paymantRequstListGui);
+     			paymantRequstListGui.setVisible(true);
+     			librarian_gui.setVisible(false);
+     			
+     		}
+     	});
+       librarian_gui.btnSigninRequest.addActionListener(new ActionListener() {
+    		
+    		@Override
+    		public void actionPerformed(ActionEvent e) {
+    			// TODO Auto-generated method stub
+    			add(sgininRequsrtListGui);
+    			sgininRequsrtListGui.setVisible(true);
+    			librarian_gui.setVisible(false);
+    			
+    		}
+    	});
+       librarian_gui.btnAddAccount.addActionListener(new ActionListener() {
+   		
+   		@Override
+   		public void actionPerformed(ActionEvent e) {
+   			// TODO Auto-generated method stub
+   			add(addAccuntGui);
+   			addAccuntGui.setVisible(true);
+   			librarian_gui.setVisible(false);
+   			
+   		}
+   	});
+        librarian_gui.btnAcocuntEditor.addActionListener(new ActionListener() {
+      		
+      		@Override
+      		public void actionPerformed(ActionEvent e) {
+      			// TODO Auto-generated method stub
+      			add(searchAccuntGui);
+      			searchAccuntGui.setVisible(true);
+      			librarian_gui.setVisible(false);
+      			
+      		}
+      	});
+       ///////////////////////book display///////////////////////////////
+       librarianBookDisplayGui.BackButton.addActionListener(new ActionListener() {
+    		@Override
+    		public void actionPerformed(ActionEvent e) {
+    			// TODO Auto-generated method stub
+    			
+    			searchBookResultGui.setVisible(true);
+    			librarianBookDisplayGui.setVisible(false);
+    			
+    			
+    		}
+    	});
+       /////////////////////add book///////////////////////////////////
+       addBookGui.BackButton.addActionListener(new ActionListener() {
+   		@Override
+   		public void actionPerformed(ActionEvent e) {
+   			// TODO Auto-generated method stub
+   			if(permmision==3)librarian_gui.setVisible(true);
+   			else libraryManager_gui.setVisible(true);
+   			addBookGui.setVisible(false);
+   			
+   			
+   			
+   		}
+       });
+       ///////////////////////payment request//////////////////
+       paymantRequstListGui.btnBack.addActionListener(new ActionListener() {
+      		@Override
+       		public void actionPerformed(ActionEvent e) {
+       			// TODO Auto-generated method stub
+      			paymantRequstListGui.setVisible(false);
+       			if(permmision==3)librarian_gui.setVisible(true);
+       			else libraryManager_gui.setVisible(true);
+       			
+       			
+       		}
+           });
+       paymantRequstListGui.btnOk.addActionListener(new ActionListener() {
+    		@Override
+     		public void actionPerformed(ActionEvent e) {
+     			// TODO Auto-generated method stub
+    			paymantRequstListGui.setVisible(false);
+    			add(paymentRequstDisplayGui);
+    			paymentRequstDisplayGui.setVisible(true);
+     			
+     			
+     		}
+    	
+         });
+       ///////////////////////payment requst display////////////////////
+       paymentRequstDisplayGui.btnBack.addActionListener(new ActionListener() {
+    		@Override
+     		public void actionPerformed(ActionEvent e) {
+     			// TODO Auto-generated method stub
+    			paymantRequstListGui.setVisible(true);
+    			paymentRequstDisplayGui.setVisible(false);
+     			
+     			
+     		}
+    	
+         });
+       ///////////////sginin request//////////////////
+       sgininRequsrtListGui.btnBack.addActionListener(new ActionListener() {
+   		@Override
+    		public void actionPerformed(ActionEvent e) {
+    			// TODO Auto-generated method stub
+   			if(permmision==3)librarian_gui.setVisible(true);
+   			else libraryManager_gui.setVisible(true);
+   			sgininRequsrtListGui.setVisible(false);
+    			
+    			
+    		}
+   	
+        });
+       sgininRequsrtListGui.btnOk.addActionListener(new ActionListener() {
+      		@Override
+       		public void actionPerformed(ActionEvent e) {
+       			// TODO Auto-generated method stub
+      			sgininRequstDisplayGui.setVisible(true);
+      			sgininRequsrtListGui.setVisible(false);
+       			add(sgininRequstDisplayGui);
+       			
+       		}
+      	
+           });
+         ///////////////////////////sginin requst display/////////////
+         sgininRequstDisplayGui.btnBack.addActionListener(new ActionListener() {
+     		@Override
+      		public void actionPerformed(ActionEvent e) {
+      			// TODO Auto-generated method stub
+     			sgininRequstDisplayGui.setVisible(false);
+     			sgininRequsrtListGui.setVisible(true);
+      			
+      			
+      		}
+     	
+          });
+         /////////////////////add Accunt///////////////////////////////
+         addAccuntGui.BackButton.addActionListener(new ActionListener() {
+      		@Override
+       		public void actionPerformed(ActionEvent e) {
+       			// TODO Auto-generated method stub
+      			addAccuntGui.setVisible(false);
+      			if(permmision==3)librarian_gui.setVisible(true);
+      			else libraryManager_gui.setVisible(true);
+       			
+       		}
+      	
+           });
+         ////////////////////////search accunt////////////////////
+         searchAccuntGui.btnBack.addActionListener(new ActionListener() {
+       		@Override
+        		public void actionPerformed(ActionEvent e) {
+        			// TODO Auto-generated method stub
+       			searchAccuntGui.setVisible(false);
+       			if(permmision==3)librarian_gui.setVisible(true);
+       			else libraryManager_gui.setVisible(true);
+        			
+        		}
+       	
+            });
+         searchAccuntGui.btnSearch.addActionListener(new ActionListener() {
+       		@Override
+        		public void actionPerformed(ActionEvent e) {
+        			// TODO Auto-generated method stub
+       			searchAccuntGui.setVisible(false);
+       			if(permmision==3){
+       				editAccuntGui.setVisible(true);
+       			    add(editAccuntGui);
+       			}	
+       			else{
+       				managerEditAccuntGui.setVisible(true);
+       			    add(managerEditAccuntGui);
+       			}
+        		}
+       	
+            });
+         //////////////////////////////////esit accunt liberian/////////////////
+         editAccuntGui.BackButton.addActionListener(new ActionListener() {
+       		@Override
+        		public void actionPerformed(ActionEvent e) {
+        			// TODO Auto-generated method stub
+       			searchAccuntGui.setVisible(true);
+       			editAccuntGui.setVisible(false);
+            }});
+         
+         /////////////////////////////////////library manager/////////////////////////////
+         libraryManager_gui.btnBookSearch.addActionListener(new ActionListener() {
+       		@Override
+        		public void actionPerformed(ActionEvent e) {
+        			// TODO Auto-generated method stub
+       			searchBookGui.setVisible(true);
+       			libraryManager_gui.setVisible(false);
+       			add(searchBookGui);
+       		}
+       		}); 
+           libraryManager_gui.btnWriteAReview.addActionListener(new ActionListener() {
+       	   		
+       	   		@Override
+       	   		public void actionPerformed(ActionEvent e) {
+       	   			// TODO Auto-generated method stub
+       	   			add(bookListToReviewGui);
+       	   			bookListToReviewGui.setVisible(true);
+       	   		libraryManager_gui.setVisible(false);
+       	   		}
+       	   	});
+           libraryManager_gui.btnLogout.addActionListener(new ActionListener() {
+       	   		
+       	   		@Override
+       	   		public void actionPerformed(ActionEvent e) {
+       	   			// TODO Auto-generated method stub
+       	   		
+       	   			// change in db status of user
+       	   		LogoutController logoutController=new LogoutController(user.getId());
+       	     	login_gui.IDtextPane.setText("");
+			    login_gui.passwordField.setText("");
+       	   		setSize(new Dimension(450,450));
+       	   		login_gui.setVisible(true);
+       	   		libraryManager_gui.setVisible(false);
+       	   			
+       	   		} 
+       	   	});
+             libraryManager_gui.NotificationButton.addActionListener(new ActionListener() {
+       	   		
+       	   		@Override
+       	   		public void actionPerformed(ActionEvent e) {
+       	   			// TODO Auto-generated method stub
+       	   			add(notificaitonWindowGui);
+       	   			notificaitonWindowGui.setVisible(true);
+       	   		    libraryManager_gui.setVisible(false);
+       	   			
+       	   		}
+       	   	});
+             libraryManager_gui.btnCheckReview.addActionListener(new ActionListener() {
+       	   		
+       	   		@Override
+       	   		public void actionPerformed(ActionEvent e) {
+       	   			// TODO Auto-generated method stub
+       	   			add(reviewToCheackGui);
+       	   			reviewToCheackGui.setVisible(true);
+       	   		libraryManager_gui.setVisible(false);
+       	   			
+       	   		}
+       	   	});	
+             libraryManager_gui.btnAddBook.addActionListener(new ActionListener() {
+       	      		
+       	      		@Override
+       	      		public void actionPerformed(ActionEvent e) {
+       	      			// TODO Auto-generated method stub
+       	      			add(addBookGui);
+       	      			addBookGui.setVisible(true);
+       	      		libraryManager_gui.setVisible(false);
+       	      			
+       	      		}
+       	      	});	
+             libraryManager_gui.btnPayReq.addActionListener(new ActionListener() {
+       	     		
+       	     		@Override
+       	     		public void actionPerformed(ActionEvent e) {
+       	     			// TODO Auto-generated method stub
+       	     			add(paymantRequstListGui);
+       	     			paymantRequstListGui.setVisible(true);
+       	     		libraryManager_gui.setVisible(false);
+       	     			
+       	     		}
+       	     	});
+             libraryManager_gui.btnSigninRequest.addActionListener(new ActionListener() {
+       	    		
+       	    		@Override
+       	    		public void actionPerformed(ActionEvent e) {
+       	    			// TODO Auto-generated method stub
+       	    			add(sgininRequsrtListGui);
+       	    			sgininRequsrtListGui.setVisible(true);
+       	    			libraryManager_gui.setVisible(false);
+       	    			
+       	    		}
+       	    	});
+             libraryManager_gui.btnAddAccount.addActionListener(new ActionListener() {
+       	   		
+       	   		@Override
+       	   		public void actionPerformed(ActionEvent e) {
+       	   			// TODO Auto-generated method stub
+       	   			add(addAccuntGui);
+       	   			addAccuntGui.setVisible(true);
+       	   		libraryManager_gui.setVisible(false);
+       	   			
+       	   		}
+       	   	});
+             libraryManager_gui.btnAcocuntEditor.addActionListener(new ActionListener() {
+       	      		
+       	      		@Override
+       	      		public void actionPerformed(ActionEvent e) {
+       	      			// TODO Auto-generated method stub
+       	      			add(searchAccuntGui);
+       	      			searchAccuntGui.setVisible(true);
+       	      		libraryManager_gui.setVisible(false);
+       	      			
+       	      		}
+       	      	});	
+             libraryManager_gui.btnGetReport.addActionListener(new ActionListener() {
+    	      		
+    	      		@Override
+    	      		public void actionPerformed(ActionEvent e) {
+    	      			// TODO Auto-generated method stub
+    	      			add(reportManuGui);
+    	      			reportManuGui.setVisible(true);
+    	      		libraryManager_gui.setVisible(false);
+    	      			
+    	      		}
+    	      	});	
+          
+         /////////////////manager book display gui////////////////////////////
+         managerBookDisplayGui.BackButton.addActionListener(new ActionListener() {
+       		@Override
+        		public void actionPerformed(ActionEvent e) {
+        			// TODO Auto-generated method stub
+       			searchBookResultGui.setVisible(true);
+       			managerBookDisplayGui.setVisible(false);
+       		}
+       		});	
+         /////////////////////manager edit accunt gui///////////////////
+         managerEditAccuntGui.BackButton.addActionListener(new ActionListener() {
+       		@Override
+        		public void actionPerformed(ActionEvent e) {
+        			// TODO Auto-generated method stub
+       			searchAccuntGui.setVisible(true);
+       			managerEditAccuntGui.setVisible(false);
+       			add(searchAccuntGui);
+       		}
+       		});	
+         /////////////report manu///////////////////
+         reportManuGui.btnBack.addActionListener(new ActionListener() {
+        		@Override
+         		public void actionPerformed(ActionEvent e) {
+         			// TODO Auto-generated method stub
+        			libraryManager_gui.setVisible(true);
+        			reportManuGui.setVisible(false);
+        		}
+        		});	
+         reportManuGui.btnReportByBook.addActionListener(new ActionListener() {
+     		@Override
+     		public void actionPerformed(ActionEvent e) {
+     			// TODO Auto-generated method stub
+     			add(reportSearchBookGui);
+     			reportSearchBookGui.setVisible(true);
+    			reportManuGui.setVisible(false);
+    		}
+    		});	
+         reportManuGui.btnReportByReader.addActionListener(new ActionListener() {
+      		@Override
+      		public void actionPerformed(ActionEvent e) {
+      			// TODO Auto-generated method stub
+      			add(reportSearchAccuntGui);
+      			reportSearchAccuntGui.setVisible(true);
+     			reportManuGui.setVisible(false);
+     		}
+     		});		
+         ////////////////////////////report by reader////////////////////////
+         reportSearchAccuntGui.btnSearch.addActionListener(new ActionListener() {
+       		@Override
+       		public void actionPerformed(ActionEvent e) {
+       			// TODO Auto-generated method stub
+       			add(reportDisplayReaderGui);
+       			reportDisplayReaderGui.setVisible(true);
+       			reportSearchAccuntGui.setVisible(false);
+      		}
+      		});		
+         reportSearchAccuntGui.btnBack.addActionListener(new ActionListener() {
+        		@Override
+        		public void actionPerformed(ActionEvent e) {
+        			// TODO Auto-generated method stub
+        			reportManuGui.setVisible(true);
+        			reportSearchAccuntGui.setVisible(false);  
+        		}
+         });
+         /////////////////////////////report reader Display/////////////////////////
+         reportDisplayReaderGui.btnBack.addActionListener(new ActionListener() {
+        		@Override
+        		public void actionPerformed(ActionEvent e) {
+        			// TODO Auto-generated method stub
+        		
+        			reportDisplayReaderGui.setVisible(false);
+        			reportSearchAccuntGui.setVisible(true);
+       		}
+       		});		
+         ////////////////report by book ////////////////////
+         reportSearchBookGui.BackButton.addActionListener(new ActionListener() {
+     		@Override
+     		public void actionPerformed(ActionEvent e) {
+     			// TODO Auto-generated method stub
+     			reportManuGui.setVisible(true);
+     			reportSearchBookGui.setVisible(false);  
+     		}
+      });
+         reportSearchBookGui.SearchbtnNewButton.addActionListener(new ActionListener() {
+      		@Override
+      		public void actionPerformed(ActionEvent e) {
+      			// TODO Auto-generated method stub
+      			reportSearchBookResultGui.setVisible(true);
+      			reportSearchBookGui.setVisible(false);  
+      			add(reportSearchBookResultGui);
+      		}
+       });
+         /////////////////////////////report search book result//////////////////
+         reportSearchBookResultGui.BackButton.addActionListener(new ActionListener() {
+       		@Override
+       		public void actionPerformed(ActionEvent e) {
+       			// TODO Auto-generated method stub
+       			reportSearchBookResultGui.setVisible(false);
+       			reportSearchBookGui.setVisible(true);  
+       			
+       		}
+        });
+         reportSearchBookResultGui.OKButton.addActionListener(new ActionListener() {
+        		@Override
+           		public void actionPerformed(ActionEvent e) {
+           			// TODO Auto-generated method stub
+           			reportSearchBookResultGui.setVisible(false);
+           			reportBookDisplayGui.setVisible(true);
+           			add(reportBookDisplayGui);
+           			
+           		}
+            });
+         /////////////////report book display///////////////////
+         reportBookDisplayGui.BackButton.addActionListener(new ActionListener() {
+        		@Override
+           		public void actionPerformed(ActionEvent e) {
+           			// TODO Auto-generated method stub
+        			reportBookDisplayGui.setVisible(false);
+        			reportSearchBookResultGui.setVisible(true);  
+           			
+           		}
+            });
+         
+	}
+      
 	
 	
-	private void openPanelByjob(String job)
+	private void openPanelByjob()
 	{
-		System.out.println("openPanelByjob: "+job);
-		switch(job)
+		int flag_check_user=0;  
+		
+		if(user.getstatus_blocked().compareTo("1")==0)
+		{
+			JOptionPane.showMessageDialog(null,"The user account is blocked");
+			flag_check_user=1;
+		}
+		else if(user.getlogin().compareTo("1")==0)
+		{
+			JOptionPane.showMessageDialog(null,"The user is allready connect from other devise ");
+			flag_check_user=1;
+		}
+	    
+		if(flag_check_user==0)
+		{
+		switch(user.getPrmission())
 		{
 		case "1":                 //Reader
 		{
@@ -441,7 +1118,7 @@ public class mainFrame extends JFrame {
 			reader_gui.setVisible(true);
 			login_gui.setVisible(false);
 			setSize(new Dimension(750, 650));
-			reader_gui.nametxt.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
+			reader_gui.lblHi.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
 		break;
 		}
 		case "2":                    //Editor
@@ -450,7 +1127,7 @@ public class mainFrame extends JFrame {
 			editor_gui.setVisible(true);
 			login_gui.setVisible(false);
 			setSize(new Dimension(750, 650));
-			editor_gui.nametxt.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
+			editor_gui.lblHi.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
 		break;	
 		}
 		case "3":                   //Librarian
@@ -459,7 +1136,7 @@ public class mainFrame extends JFrame {
 			librarian_gui.setVisible(true);
 			login_gui.setVisible(false);
 			setSize(new Dimension(750, 650));
-			librarian_gui.nametxt.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
+			librarian_gui.lblHi.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
 		break;
 		}
 		case "4":  
@@ -468,7 +1145,7 @@ public class mainFrame extends JFrame {
 			libraryManager_gui.setVisible(true);
 			login_gui.setVisible(false);
 			setSize(new Dimension(750, 650));
-			libraryManager_gui.nametxt.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
+			libraryManager_gui.lblHi.setText("Hi! "+user.getFirstName()+" "+user.getLastName());
 		break;
 		}
 		default:
@@ -478,20 +1155,30 @@ public class mainFrame extends JFrame {
 		
 		
 		}
+		}
 	}
 	
 	private void copyUser(User u)
 	{
+		System.out.println("1   "+u.toString());
 		user.setId(u.getId());
 		user.setFirstName(u.getFirstName());
 		user.setLastName(u.getLastName());
 		user.setEmail(u.getEmail());
 		user.setpass(u.getpass());
 		user.setCreditCardNum(u.getCreditCardNum());
+		user.setlogin(u.getlogin());
 		user.setPrmission(u.getPrmission());
-		user.setStatus(u.getStatus());
+		user.setaccout_type(u.getaccout_type());
+		user.setstatus_blocked(u.getstatus_blocked());
+		System.out.println("2   "+user.toString());
+		
 	}
 	
 }
 
 
+
+	
+	
+	

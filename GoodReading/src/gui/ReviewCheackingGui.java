@@ -85,7 +85,7 @@ public class ReviewCheackingGui extends JPanel {
 		lblNewLabel.setBounds(62, 288, 115, 33);
 		add(lblNewLabel);
 		
-		JButton btnBack = new JButton("Back");
+		btnBack = new JButton("Back");
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 23));
 		btnBack.setBounds(62, 570, 171, 41);
 		add(btnBack);

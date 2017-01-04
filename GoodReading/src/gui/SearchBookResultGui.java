@@ -45,12 +45,12 @@ public class SearchBookResultGui extends JPanel {
 		
 		OKButton = new JButton("Ok");
 		OKButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		OKButton.setBounds(472, 532, 171, 50);
+		OKButton.setBounds(493, 532, 171, 50);
 		add(OKButton);
 		
 	    BackButton = new JButton("Back");
 		BackButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		BackButton.setBounds(91, 532, 171, 50);
+		BackButton.setBounds(91, 528, 171, 58);
 		add(BackButton);
 
 	}

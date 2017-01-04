@@ -1,4 +1,3 @@
-// GIT TEST
 package Controllers;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -106,20 +105,7 @@ public static int delete(String table,String rKey,String rValue, Connection con)
 	return count;
 	}
 
-public static int insert(String table,String iKey,String iValue, Connection con){
-	int result = 0;
-	try
-    {
-		Statement stmt = con.createStatement();
-		String sql = "INSERT INTO " + table + "(" + iKey +") VALUES ("+ iValue +")";
-		result = stmt.executeUpdate(sql);
-    }
-    catch (SQLException e)
-    {
-      e.printStackTrace();
-    }
-	return result;
-	}
+
 
 public static Object PrintMenu(){
 	String result = "Welcome to HR system\nPlease one choose options:\nPress 1 to show all the workders details\nPress 2 to set a new detpartment for workder\n";

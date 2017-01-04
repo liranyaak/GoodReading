@@ -19,7 +19,6 @@ public class Login_gui extends JPanel  {
 	public JTextPane IDtextPane;
 	public JPasswordField passwordField;
 	public JButton btnAbout;
-	
 	public Login_gui()
 	{
 		super();
@@ -47,13 +46,13 @@ public class Login_gui extends JPanel  {
 		add(lblPassword);
 		
 	    loginButton = new JButton("Log-in");
-	    loginButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	    loginButton.setBounds(84, 249, 261, 37);
+	    loginButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		add(loginButton);
 		
 	    singinButton = new JButton("Sign-in");
-	    singinButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	    singinButton.setBounds(84, 297, 261, 34);
+	    singinButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		add(singinButton);
 		
 		JLabel lblNewLabel = new JLabel("New label");
@@ -62,8 +61,8 @@ public class Login_gui extends JPanel  {
 		add(lblNewLabel);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBackground(Color.LIGHT_GRAY);
 		passwordField.setBounds(139, 195, 162, 20);
+		passwordField.setBackground(Color.LIGHT_GRAY);
 		add(passwordField);
 		
 		btnAbout = new JButton("About");

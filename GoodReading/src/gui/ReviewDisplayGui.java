@@ -60,7 +60,7 @@ public class ReviewDisplayGui extends JPanel {
 		
 		btnBack = new JButton("Back");
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		btnBack.setBounds(60, 545, 171, 41);
+		btnBack.setBounds(64, 581, 171, 41);
 		add(btnBack);
 
 	}

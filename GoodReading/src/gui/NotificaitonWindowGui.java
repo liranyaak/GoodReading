@@ -23,11 +23,11 @@ public class NotificaitonWindowGui extends JPanel {
 		setLayout(null);
 		JLabel lblNotificaitons = new JLabel("Notificaitons");
 		lblNotificaitons.setFont(new Font("Stencil", Font.PLAIN, 42));
-		lblNotificaitons.setBounds(224, 28, 315, 64);
+		lblNotificaitons.setBounds(237, 28, 315, 64);
 		add(lblNotificaitons);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(91, 130, 556, 333);
+		scrollPane.setBounds(107, 136, 556, 333);
 		add(scrollPane);
 		
 		table = new JTable();
@@ -36,8 +36,7 @@ public class NotificaitonWindowGui extends JPanel {
 	
 		
 		btnBack = new JButton("Back");
-		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnBack.setBounds(278, 521, 178, 50);
+		btnBack.setBounds(288, 581, 171, 41);
 		add(btnBack);
 
 	}

@@ -9,10 +9,12 @@ public class User {
 	    private String pass;
 	    private String email;
 	    private String creditCardNum; 
-	    private String status;
+	    private String log_in;
 	    private String prmission;
+	    private String accout_type;
+	    private String status_blocked;
 
-	    public User(String id, String firstName, String lastName,String pass,String email,String creditCardNum,String status,String prmission)
+	    public User(String id, String firstName, String lastName,String pass,String email,String creditCardNum,String login,String prmission,String status_blocked,String accout_type )
 	    {
 	        this.id = id;
 	        this.firstName = firstName;
@@ -20,8 +22,10 @@ public class User {
 	        this.pass = pass;
 	        this.email= email;
 	        this.creditCardNum = creditCardNum;
-	        this.status=status;
+	        this.log_in=login;
 	        this.prmission= prmission;
+	        this.accout_type=accout_type;
+	        this.status_blocked=status_blocked;
 	    }
 	    public User()
 	    {
@@ -31,9 +35,10 @@ public class User {
 		        this.pass = "0";
 		        this.email="0" ;
 		        this.creditCardNum = "0";
-		        this.status="0";
+		        this.log_in="0";
 		        this.prmission= "0";
-	    	
+		        this.accout_type="0";
+		        this.status_blocked="0";
 	    }
 
 public String getpass() {
@@ -94,23 +99,43 @@ this.pass = pass;
 			this.creditCardNum = creditCardNum;
 		}
 
-		public void setStatus(String Status) {
-			this.status =Status ;
+		public void setlogin(String log_in) {
+			this.log_in =log_in ;
 		}
 		public void setPrmission(String prmission) {
 			this.prmission =prmission ;
 		}
-		public String getStatus() {
-			return status;
+		
+		public void setaccout_type(String accout_type) {
+			this.accout_type=accout_type;
+		}
+		
+		public void setstatus_blocked(String status_blocked) {
+			 this.status_blocked="0";
+		}
+		
+		
+		
+		
+		
+		public String getlogin() {
+			return log_in;
 		}
 		public String getPrmission() {
 			return prmission;
+		}
+		
+		public String getaccout_type() {
+			return accout_type;
+		}
+		public String getstatus_blocked() {
+			return status_blocked;
 		}
 		@Override
 		public String toString() {
 			return "User [id=" + id + ", firstName=" + firstName
 					+ ", lastName=" + lastName + ", pass=" + pass
 					+ ", email=" + email + ", creditCardNum=" + creditCardNum+ 
-					"status=" + status + ", prmission=" + prmission+"]";
+					"log_in=" + log_in + ", prmission=" + prmission+", accout_type=" +accout_type + ", status_blocked=" +status_blocked+ "]";
 		}
 }

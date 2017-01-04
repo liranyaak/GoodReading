@@ -29,7 +29,7 @@ public class Signin_gui extends JPanel  {
 	public JTextPane PASStextPane;
 	public JTextPane EMAILtextPane;
 	public JTextPane  CARDtextPane;
-	
+	public JLabel lbMainTitle;
 	
 	
 	public Signin_gui() {
@@ -39,10 +39,10 @@ public class Signin_gui extends JPanel  {
 		this.setLayout(null);
 		Checks check=new Checks();
 		
-		JLabel lblSgin = new JLabel("Sign-in");
-		lblSgin.setFont(new Font("Stencil", Font.PLAIN, 42));
-		lblSgin.setBounds(309, 11, 170, 66);
-		add(lblSgin);
+		lbMainTitle = new JLabel("Sign-in");
+		lbMainTitle.setFont(new Font("Stencil", Font.PLAIN, 42));
+		lbMainTitle.setBounds(309, 11, 170, 66);
+		add(lbMainTitle);
 		
 		IDtextPane = new JTextPane();
 		IDtextPane.setFont(new Font("Tahoma", Font.PLAIN, 18));

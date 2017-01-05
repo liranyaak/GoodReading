@@ -1,0 +1,67 @@
+package Controllers;
+
+import java.util.ArrayList;
+
+public class WriteReviewController extends Main_con{
+	volatile static boolean flag=true;
+	private ArrayList<String> bookListToReview;
+	static int stage;
+	public WriteReviewController(String ID) /// change password and to user class
+	{
+		super();
+		stage=0;
+		bookListToReview =new ArrayList<String>();
+		int i;
+		  ArrayList<String> bookList = new ArrayList<String>();
+	        bookList.add("select"); 									//type of the query
+	        bookList.add("purchase");    									//from
+	        bookList.add("user_id="+ID);  // where 
+	        client.handleMessageFromClientUI(bookList);
+	        while(flag)
+	        {
+	      	   
+	        }
+	         
+	          flag =true;
+	          for(i=0;i<bookListToReview.size();i++){
+	        	bookList.add("select"); 									//type of the query
+	  	        bookList.add("book");    									//from
+	  	        bookList.add("book_id="+);  // where 
+	  	        client.handleMessageFromClientUI(bookList);
+	        	  
+	          }
+	        	  
+	          
+	        
+	       
+	}
+	public void display(Object message)
+	{
+		System.out.println(((ArrayList<String>) message).toString());
+		System.out.println(((ArrayList<String>) message).get(0));
+		if(((ArrayList<String>) message).get(0).compareTo("1")==0)
+		{
+			
+		user.setId(((ArrayList<String>) message).get(1));
+		user.setFirstName(((ArrayList<String>) message).get(2));
+		user.setLastName(((ArrayList<String>) message).get(3));
+		user.setpass(((ArrayList<String>) message).get(4));
+		user.setEmail(((ArrayList<String>) message).get(5));
+		user.setCreditCardNum(((ArrayList<String>) message).get(6));
+		user.setlogin(((ArrayList<String>) message).get(7));
+		user.setPrmission(((ArrayList<String>) message).get(8));
+		user.setaccout_type(((ArrayList<String>) message).get(9));
+		user.setstatus_blocked(((ArrayList<String>) message).get(10));
+		System.out.println("test"+user.toString());
+		}
+		else
+		{
+			user.setPrmission("0");
+			
+		}
+		
+		flag=false;
+		
+	}
+	
+}

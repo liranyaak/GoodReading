@@ -1,5 +1,5 @@
 package gui;
-
+import entity.*;
 
 
 import javax.swing.JFrame;
@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
@@ -21,15 +22,15 @@ import javax.swing.JButton;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import entity.User;
-import Controllers.LogoutController;
-import Controllers.loginController;
+import Controllers.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public class mainFrame extends JFrame {
     private User user;
+    private ArrayList<Book> books;
 	private Signin_gui signin_gui ;
     private Login_gui login_gui;
     private ReaderGui reader_gui;
@@ -72,6 +73,7 @@ public class mainFrame extends JFrame {
 		
 		super();
 		user=new User();
+		books=new ArrayList<Book>();
 		Checks check=new Checks();
 		setSize(750,650);
 		///////////status represnet 1-reader,2-editor,3-librerian,4-libarary mananger
@@ -495,9 +497,20 @@ public class mainFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			WriteReviewController writeReviewContoller=new WriteReviewController(user.getId());
+			books=writeReviewContoller.getBooksList();
+			if(books.size()==0)
+				JOptionPane.showMessageDialog(null,"You Dont Have Books To review");
+			else{
 			add(bookListToReviewGui);
 			bookListToReviewGui.setVisible(true);
 			editor_gui.setVisible(false);
+			DefaultListModel<String> model = new DefaultListModel<>();
+			bookListToReviewGui.BookList.setModel(model);
+			for(int i=0;i<books.size();i++)model.addElement(books.get(i).getTitle());
+			}
+			
+		
 		}
 	});
 	   editor_gui.btnLogout.addActionListener(new ActionListener() {

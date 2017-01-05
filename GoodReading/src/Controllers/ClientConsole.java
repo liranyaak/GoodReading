@@ -139,7 +139,7 @@ public class ClientConsole implements ChatIF
     System.out.print("Press 1 to show all the workders details\n");
     System.out.print("Press 2 to set a new detpartment for workder\n");
     chat.accept();  //Wait for console data
-  }
+  }}
 
 
 

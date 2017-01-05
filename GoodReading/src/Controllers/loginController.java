@@ -47,8 +47,8 @@ public class loginController extends Main_con {
 	
 	public void display(Object message)
 	{
-		System.out.println(((ArrayList<String>) message).toString());
-		System.out.println(((ArrayList<String>) message).get(0));
+		//System.out.println(((ArrayList<String>) message).toString());
+		//System.out.println(((ArrayList<String>) message).get(0));
 		if(((ArrayList<String>) message).get(0).compareTo("1")==0)
 		{
 			
@@ -62,7 +62,7 @@ public class loginController extends Main_con {
 		user.setPrmission(((ArrayList<String>) message).get(8));
 		user.setaccout_type(((ArrayList<String>) message).get(9));
 		user.setstatus_blocked(((ArrayList<String>) message).get(10));
-		System.out.println("test"+user.toString());
+		//System.out.println("test"+user.toString());
 		}
 		else
 		{

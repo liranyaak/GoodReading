@@ -1,0 +1,47 @@
+package gui;
+
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JTable;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import javax.swing.JTextPane;
+import java.awt.Color;
+
+public class BookListToReviewGui extends JPanel {
+    public JButton backButton;
+    public JButton OKbtnNewButton;
+    
+	/**
+	 * Create the panel.
+	 */
+	public BookListToReviewGui() {
+		setBackground(Color.WHITE);
+		setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Your Book List To Review");
+		lblNewLabel.setFont(new Font("Stencil", Font.PLAIN, 42));
+		lblNewLabel.setBounds(91, 39, 584, 43);
+		add(lblNewLabel);
+		
+		backButton = new JButton("Back");
+		backButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		backButton.setBounds(78, 506, 186, 56);
+		add(backButton);
+		
+		OKbtnNewButton = new JButton("Ok");
+		OKbtnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		OKbtnNewButton.setBounds(477, 506, 196, 56);
+		add(OKbtnNewButton);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(101, 136, 570, 342);
+		add(scrollPane);
+		
+		JList list = new JList();
+		scrollPane.setViewportView(list);
+
+	}
+}

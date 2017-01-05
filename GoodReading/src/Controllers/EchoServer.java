@@ -35,7 +35,6 @@ import OCSF.ConnectionToClient;
 public class EchoServer extends AbstractServer 
 {
 	public static String passwordDB;
-	static String table= "worker";
   //Class variables *************************************************
   
   /**
@@ -81,25 +80,63 @@ public class EchoServer extends AbstractServer
 				 String table = ((ArrayList<String>) msg).get(1);
 				 String where = ((ArrayList<String>) msg).get(2);
 		  ArrayList<String> result = mysqlConnection.select(table, where, mysqlcon.conn);
+		  System.out.println(result.get(0)+" rows selected");
 		  client.sendToClient(result); 
 		  }
 		  catch (Exception localException2) {}
 	     }
-	  if(type.equals("update")){
-			  try 
-		      { 
-				  System.out.println("update ok");
-				  String table = ((ArrayList<String>) msg).get(1);
-				  String set = ((ArrayList<String>) msg).get(2);
-				   String where = ((ArrayList<String>) msg).get(3);
-				   
+	     else if(type.equals("update")){
+	    	try 
+		     { 
+			  String table = ((ArrayList<String>) msg).get(1);
+			  String set = ((ArrayList<String>) msg).get(2);
+			  String where = ((ArrayList<String>) msg).get(3);
 			  int count = mysqlConnection.update(table, set, where, mysqlcon.conn);
+			  if(count>0)
+				  System.out.println(count +" rows updated");
+			  else
+				  System.out.println("Nothing updated");
+
 			  client.sendToClient(count);
+			 }
+			  catch (Exception localException2) {}
+	     }
+	     else if(type.equals("insert")){
+				try 
+				 { 
+				  String table = ((ArrayList<String>) msg).get(1);
+				  String key = ((ArrayList<String>) msg).get(2);
+				  String value = ((ArrayList<String>) msg).get(3);
+						   
+					  int count = mysqlConnection.insert(table, key, value, mysqlcon.conn);
+					  if(count>0)
+						  System.out.println(count +" rows inserted");
+					  else
+						  System.out.println("Nothing inserted");
+					  client.sendToClient(count);
+					  }
+					  catch (Exception localException2) {
+				
 			  }
-			  catch (Exception localException2) {
-		
-	  }
-	}
+			}
+	     else if(type.equals("remove")){
+				try 
+				 { 
+				  String table = ((ArrayList<String>) msg).get(1);
+				  String key = ((ArrayList<String>) msg).get(2);
+				  String value = ((ArrayList<String>) msg).get(3);
+						   
+					  int count = mysqlConnection.delete(table, key, value, mysqlcon.conn);
+					  if(count>0)
+						  System.out.println(count +" rows removed");
+					  else
+						  System.out.println("Nothing removed");
+					  client.sendToClient(count);
+					  }
+					  catch (Exception localException2) {
+				
+			  }
+			}
 	  }
 	  /*
 	  ArrayList<String> parameters = (ArrayList<String>)msg;

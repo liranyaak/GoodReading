@@ -607,12 +607,23 @@ public class mainFrame extends JFrame {
 		} );
        librarian_gui.btnWriteAReview.addActionListener(new ActionListener() {
    		
-   		@Override
+    	   @Override
    		public void actionPerformed(ActionEvent e) {
    			// TODO Auto-generated method stub
+   			WriteReviewController writeReviewContoller=new WriteReviewController(user.getId());
+   			books=writeReviewContoller.getBooksList();
+   			if(books.size()==0)
+   				JOptionPane.showMessageDialog(null,"You Dont Have Books To review");
+   			else{
    			add(bookListToReviewGui);
    			bookListToReviewGui.setVisible(true);
    			librarian_gui.setVisible(false);
+   			DefaultListModel<String> model = new DefaultListModel<>();
+   			bookListToReviewGui.BookList.setModel(model);
+   			for(int i=0;i<books.size();i++)model.addElement(books.get(i).getTitle());
+   			}
+   			
+   		
    		}
    	});
        librarian_gui.btnLogout.addActionListener(new ActionListener() {

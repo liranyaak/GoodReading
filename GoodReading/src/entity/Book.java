@@ -1,3 +1,4 @@
+
 /*Shay made-3.1.17*/
 package entity;
 
@@ -29,6 +30,18 @@ public class Book {
 		this.language=null;
 		this.tableOfContents=null;
 		this.cost=0;
+	}
+	public Book(Book b){
+		this.bookId=b.getBookId();
+		this.title=b.getTitle();
+		this.language=b.getLanguage();
+		this.tableOfContents=b.getTableOfContents();
+		this.cost=b.getCost();
+		this.summery=b.getSummery();
+		this.searchCount=b.getSearchCount();
+		this.visable=b.isVisable();
+		this.porcheseCount=b.getPorcheseCount();
+		
 	}
 	private void UpdateVisableStatus(boolean vis)
 	{
@@ -87,7 +100,7 @@ public class Book {
 	public void setPorcheseCount(int porcheseCount) {
 		this.porcheseCount = porcheseCount;
 	}
-	public String getsummery() {
+	public String getSummery() {
 		return summery;
 	}
 	public void setSummery(String summery) {
@@ -100,6 +113,16 @@ public class Book {
 				+ cost +"summery"+summery+ ", searchCount=" + searchCount + ", visable="
 				+ visable + ", porcheseCount=" + porcheseCount + "]";
 	}
-	
+	public void clear(){
+		this.bookId=null;
+		this.title=null;
+		this.language=null;
+		this.tableOfContents=null;
+		this.cost=0;
+		this.summery=null;
+		this.searchCount=0;
+		this.visable=false;
+		this.porcheseCount=0;
+	}
 	
 }

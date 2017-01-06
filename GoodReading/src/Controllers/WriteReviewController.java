@@ -1,5 +1,6 @@
 package Controllers;
 import entity.*;
+
 import java.util.ArrayList;
 
 public class WriteReviewController extends Main_con{
@@ -8,6 +9,8 @@ public class WriteReviewController extends Main_con{
 	static int stage;
 	public ArrayList<Book> books;
 	public Book tmpBook;
+	
+	
 	public WriteReviewController(String ID) /// change password and to user class
 	{
 		super();
@@ -25,15 +28,18 @@ public class WriteReviewController extends Main_con{
 	        {
 	      	   
 	        }
+	       
 	        
-	        System.out.println("okkkkkkkkkkkkkkkkkkkk");
 	          flag =true;
 	          books= new ArrayList<Book>();
 	          for(i=0;i<tmp.size();i++){
+	        	bookList.clear();
+	        	System.out.println("bookList:"+bookList);
 	        	bookList.add("select"); 									//type of the query
 	  	        bookList.add("book");    									//from
 	  	        bookList.add("book_id="+tmp.get(i));  // where 
 	  	        client.handleMessageFromClientUI(bookList);
+	  	       stage++;
 	  	      while(flag)
 		        {
 		      	   
@@ -41,8 +47,8 @@ public class WriteReviewController extends Main_con{
 	  	      flag =true;  
 	          }
 	          
-	          System.out.println("test  review book"+tmpBook); 
-	        
+	          
+	          System.out.println("test  review book"+books.toString()); 
 	       
 	}
 	public void display(Object message)
@@ -51,14 +57,15 @@ public class WriteReviewController extends Main_con{
 		System.out.println("test  review"+(((ArrayList<String>) message)));
 		if(stage==0){
 		
-		for(i=0;i<Integer.parseInt((((ArrayList<String>) message).get(0)));i++)
-			tmp.add((((ArrayList<String>) message).get(2*i)));
-             stage++;
+		for(i=2;i<(((ArrayList<String>) message).size());i=i+3)
+			tmp.add((((ArrayList<String>) message).get(i)));
+             
              System.out.println("test  review temp"+tmp);
-             flag=false;
+            flag=false;
 		}
 		 
-		 if(stage==1){
+		 if(stage!=0){
+		  tmpBook.clear();
 		  tmpBook.setBookId(((ArrayList<String>) message).get(1));
 		  tmpBook.setTitle(((ArrayList<String>) message).get(2));
 		  tmpBook.setLanguage(((ArrayList<String>) message).get(3));
@@ -66,41 +73,22 @@ public class WriteReviewController extends Main_con{
 		  tmpBook.setCost(Float.parseFloat((((ArrayList<String>) message).get(5))));
 		  tmpBook.setSearchCount(Integer.parseInt(((ArrayList<String>) message).get(6)));
 		  tmpBook.setVisable(Boolean.parseBoolean(((ArrayList<String>) message).get(7)));
-		  tmpBook.setPorcheseCount(Integer.parseInt(((ArrayList<String>) message).get(6)));
+		  tmpBook.setPorcheseCount(Integer.parseInt(((ArrayList<String>) message).get(8)));
 		  tmpBook.setTableOfContents(((ArrayList<String>) message).get(9));
-		  books.add(tmpBook);
+		  books.add(new Book(tmpBook));
+		  System.out.println("books"+books);
+		  flag=false;
+
 		}
 		
 		
-		flag=false;
-		/*System.out.println(((ArrayList<String>) message).toString());
-		System.out.println(((ArrayList<String>) message).get(0));
-		if(((ArrayList<String>) message).get(0).compareTo("1")==0)
-		{
-			
-		user.setId(((ArrayList<String>) message).get(1));
-		user.setFirstName(((ArrayList<String>) message).get(2));
-		user.setLastName(((ArrayList<String>) message).get(3));
-		user.setpass(((ArrayList<String>) message).get(4));
-		user.setEmail(((ArrayList<String>) message).get(5));
-		user.setCreditCardNum(((ArrayList<String>) message).get(6));
-		user.setlogin(((ArrayList<String>) message).get(7));
-		user.setPrmission(((ArrayList<String>) message).get(8));
-		user.setaccout_type(((ArrayList<String>) message).get(9));
-		user.setstatus_blocked(((ArrayList<String>) message).get(10));
-		System.out.println("test"+user.toString());
-		}
-		else
-		{
-			user.setPrmission("0");
-			
-		}
 		
-		flag=false;*/
+		
 		
 	}
 public ArrayList<Book> getBooksList(){
-	return books;
+	
+	return this.books;
 }
 }
 

@@ -1,12 +1,12 @@
 package gui;
-
-
+import entity.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
@@ -23,13 +23,18 @@ import javax.swing.event.AncestorListener;
 
 import entity.User;
 import Controllers.LogoutController;
+import Controllers.WriteReviewController;
 import Controllers.loginController;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public class mainFrame extends JFrame {
-    private User user;
+    public User user;
+    public String id="0";
+    private ArrayList<Book> books;
+
 	private Signin_gui signin_gui ;
     private Login_gui login_gui;
     private ReaderGui reader_gui;
@@ -138,6 +143,7 @@ public class mainFrame extends JFrame {
 					loginController login_con=new loginController(login_gui.IDtextPane.getText(), login_gui.passwordField.getText());
 					permmision=Integer.parseInt(login_con.getUser().getPrmission());
 					copyUser(login_con.getUser());
+					id=user.getId();
 					openPanelByjob();
 				}
 				
@@ -491,15 +497,26 @@ public class mainFrame extends JFrame {
 		}
 	});
 	   editor_gui.btnWriteAReview.addActionListener(new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			add(bookListToReviewGui);
-			bookListToReviewGui.setVisible(true);
-			editor_gui.setVisible(false);
-		}
-	});
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				WriteReviewController writeReviewContoller=new WriteReviewController(user.getId());
+				books=writeReviewContoller.getBooksList();
+				if(books.size()==0)
+					JOptionPane.showMessageDialog(null,"You Dont Have Books To review");
+				else{
+				add(bookListToReviewGui);
+				bookListToReviewGui.setVisible(true);
+				editor_gui.setVisible(false);
+				DefaultListModel<String> model = new DefaultListModel<>();
+				bookListToReviewGui.BookList.setModel(model);
+				for(int i=0;i<books.size();i++)model.addElement(books.get(i).getTitle());
+				}
+				
+			
+			}
+	   });
 	   editor_gui.btnLogout.addActionListener(new ActionListener() {
 		
 		@Override

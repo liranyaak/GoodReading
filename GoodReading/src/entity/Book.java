@@ -1,5 +1,5 @@
 /*Shay made-3.1.17*/
-package check1;
+package entity;
 
 public class Book {
 	String bookId;
@@ -10,6 +10,7 @@ public class Book {
 	int searchCount;
 	boolean visable;
 	int porcheseCount;
+	String Summery;
 	
 	public Book(String bookId, String title, String language ,
 			String tableOfContents, float cost)
@@ -28,12 +29,10 @@ public class Book {
 		this.tableOfContents=null;
 		this.cost=0;
 	}
-	@SuppressWarnings("unused")
 	private void UpdateVisableStatus(boolean vis)
 	{
 		this.visable=vis;
 	}
-	@SuppressWarnings("unused")
 	private void EditBook()		//////////EDIT BOOK/////////////
 	{
 		
@@ -53,6 +52,9 @@ public class Book {
 	}
 	public String getLanguage() {
 		return language;
+	}
+	public String getSummery() {
+		return Summery;
 	}
 	public void setLanguage(String language) {
 		this.language = language;
@@ -86,6 +88,12 @@ public class Book {
 	}
 	public void setPorcheseCount(int porcheseCount) {
 		this.porcheseCount = porcheseCount;
+	
+	}
+	
+	public void setsummery(String Summery) 
+	{
+		this.Summery=Summery;
 	}
 	@Override
 	public String toString() {

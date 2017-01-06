@@ -1,5 +1,5 @@
 /*Shay made-3.1.17*/
-package check1;
+package entity;
 
 import java.util.Date;
 

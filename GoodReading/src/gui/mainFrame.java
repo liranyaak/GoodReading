@@ -22,16 +22,30 @@ import javax.swing.JButton;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+<<<<<<< HEAD
 import Controllers.*;
+=======
+import entity.User;
+import Controllers.LogoutController;
+import Controllers.WriteReviewController;
+import Controllers.loginController;
+>>>>>>> 7cd5a4e9d6ef140b3373450525f2856f7ea03650
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class mainFrame extends JFrame {
+<<<<<<< HEAD
     private User user;
     private ArrayList<Book> books;
     private int selection=-1;
+=======
+    public User user;
+    public String id="0";
+    private ArrayList<Book> books;
+
+>>>>>>> 7cd5a4e9d6ef140b3373450525f2856f7ea03650
 	private Signin_gui signin_gui ;
     private Login_gui login_gui;
     private ReaderGui reader_gui;
@@ -141,6 +155,7 @@ public class mainFrame extends JFrame {
 					loginController login_con=new loginController(login_gui.IDtextPane.getText(), login_gui.passwordField.getText());
 					permmision=Integer.parseInt(login_con.getUser().getPrmission());
 					copyUser(login_con.getUser());
+					id=user.getId();
 					openPanelByjob();
 				}
 				
@@ -528,6 +543,7 @@ public class mainFrame extends JFrame {
 		}
 	});
 	   editor_gui.btnWriteAReview.addActionListener(new ActionListener() {
+<<<<<<< HEAD
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -548,6 +564,28 @@ public class mainFrame extends JFrame {
 		
 		}
 	});
+=======
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				WriteReviewController writeReviewContoller=new WriteReviewController(user.getId());
+				books=writeReviewContoller.getBooksList();
+				if(books.size()==0)
+					JOptionPane.showMessageDialog(null,"You Dont Have Books To review");
+				else{
+				add(bookListToReviewGui);
+				bookListToReviewGui.setVisible(true);
+				editor_gui.setVisible(false);
+				DefaultListModel<String> model = new DefaultListModel<>();
+				bookListToReviewGui.BookList.setModel(model);
+				for(int i=0;i<books.size();i++)model.addElement(books.get(i).getTitle());
+				}
+				
+			
+			}
+	   });
+>>>>>>> 7cd5a4e9d6ef140b3373450525f2856f7ea03650
 	   editor_gui.btnLogout.addActionListener(new ActionListener() {
 		
 		@Override

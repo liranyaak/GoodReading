@@ -111,7 +111,7 @@ this.pass = pass;
 		}
 		
 		public void setstatus_blocked(String status_blocked) {
-			 this.status_blocked="0";
+			 this.status_blocked=status_blocked;
 		}
 		
 		

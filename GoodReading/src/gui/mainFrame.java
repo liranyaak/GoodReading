@@ -1096,7 +1096,7 @@ public class mainFrame extends JFrame {
 	private void openPanelByjob()
 	{
 		int flag_check_user=0;  
-		
+		System.out.println(user.getstatus_blocked());
 		if(user.getstatus_blocked().compareTo("1")==0)
 		{
 			JOptionPane.showMessageDialog(null,"The user account is blocked");

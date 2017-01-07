@@ -1,0 +1,23 @@
+package Controllers;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import entity.*;
+
+public class NewReviewContoller extends Main_con{
+	private static int  count=0;
+	
+public NewReviewContoller(Book book,User user,String content){
+	super();
+	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	Date date = new Date();
+	
+	ArrayList<String> NewReview = new ArrayList<String>();
+	NewReview.add("insert"); 									//type of the query
+	NewReview.add("reviews");    									//from
+	NewReview.add("review_id="+count+"and check_status="+0+"and review_content="+content+"and user_id="+user.getId()+"and book_id="+book.getBookId()+"and review_date="+dateFormat.format(date));  // where 
+    client.handleMessageFromClientUI(NewReview);
+}
+
+}

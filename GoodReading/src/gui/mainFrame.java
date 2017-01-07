@@ -1,7 +1,6 @@
 package gui;
 import entity.*;
 
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -12,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.ListSelectionModel;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,6 +31,7 @@ import java.util.ArrayList;
 public class mainFrame extends JFrame {
     private User user;
     private ArrayList<Book> books;
+    private int selection=-1;
 	private Signin_gui signin_gui ;
     private Login_gui login_gui;
     private ReaderGui reader_gui;
@@ -40,7 +41,7 @@ public class mainFrame extends JFrame {
 	private SearchBookGui searchBookGui;
     private BookListToReviewGui bookListToReviewGui;
 	private SearchBookResultGui searchBookResultGui; 
-	private  BookDisplayGui bookDisplayGui;
+	private BookDisplayGui bookDisplayGui;
 	private NotificaitonWindowGui notificaitonWindowGui;
 	private ReviwsForBookListGui reviewsForBookList;
 	private ReviewDisplayGui reviewDisplayGui;
@@ -246,12 +247,22 @@ public class mainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				WriteReviewController writeReviewContoller=new WriteReviewController(user.getId());
+				books=writeReviewContoller.getBooksList();
+				if(books.size()==0)
+					JOptionPane.showMessageDialog(null,"You Dont Have Books To review");
+				else{
 				add(bookListToReviewGui);
 				bookListToReviewGui.setVisible(true);
 				reader_gui.setVisible(false);
+				DefaultListModel<String> model = new DefaultListModel<>();
+				bookListToReviewGui.BookList.setModel(model);
+				for(int i=0;i<books.size();i++)model.addElement(books.get(i).getTitle());
+				}
+				
+			
 			}
 		});
-		
 		reader_gui.NotificationButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -343,10 +354,14 @@ public class mainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				bookListToReviewGui.BookList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				selection=bookListToReviewGui.BookList.getSelectedIndex();
+				if(selection!=-1){
+				// System.out.println("the choosen one "+books.get(selection));
 				add(writeReviewGui);
 				writeReviewGui.setVisible(true);
 				bookListToReviewGui.setVisible(false);
-				
+				}
 			    
 			}
 		});
@@ -359,6 +374,26 @@ public class mainFrame extends JFrame {
 				writeReviewGui.setVisible(false);
 				bookListToReviewGui.setVisible(true);
 				
+			    
+			}
+		});
+        writeReviewGui.btnOk.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(writeReviewGui.textAreaReview.getText()==null){
+					JOptionPane.showMessageDialog(null,"You MUST enter a review");
+				}
+				else{	
+				NewReviewContoller newReviewcontoller=new NewReviewContoller(books.get(selection),user,writeReviewGui.textAreaReview.getText());
+				JOptionPane.showMessageDialog(null,"The review sent for checking!");
+				writeReviewGui.setVisible(false);
+				if(permmision==1)reader_gui.setVisible(true);
+				else if(permmision==2)editor_gui.setVisible(true);
+				else if(permmision==3)librarian_gui.setVisible(true);
+				else libraryManager_gui.setVisible(true);
+				}
 			    
 			}
 		});
@@ -876,15 +911,26 @@ public class mainFrame extends JFrame {
        		}
        		}); 
            libraryManager_gui.btnWriteAReview.addActionListener(new ActionListener() {
-       	   		
-       	   		@Override
-       	   		public void actionPerformed(ActionEvent e) {
-       	   			// TODO Auto-generated method stub
-       	   			add(bookListToReviewGui);
-       	   			bookListToReviewGui.setVisible(true);
-       	   		libraryManager_gui.setVisible(false);
-       	   		}
-       	   	});
+
+       		@Override
+       		public void actionPerformed(ActionEvent e) {
+       			// TODO Auto-generated method stub
+       			WriteReviewController writeReviewContoller=new WriteReviewController(user.getId());
+       			books=writeReviewContoller.getBooksList();
+       			if(books.size()==0)
+       				JOptionPane.showMessageDialog(null,"You Dont Have Books To review");
+       			else{
+       			add(bookListToReviewGui);
+       			bookListToReviewGui.setVisible(true);
+       			libraryManager_gui.setVisible(false);
+       			DefaultListModel<String> model = new DefaultListModel<>();
+       			bookListToReviewGui.BookList.setModel(model);
+       			for(int i=0;i<books.size();i++)model.addElement(books.get(i).getTitle());
+       			}
+       			
+       		
+       		}
+       	});
            libraryManager_gui.btnLogout.addActionListener(new ActionListener() {
        	   		
        	   		@Override

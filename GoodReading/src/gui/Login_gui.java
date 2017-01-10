@@ -57,7 +57,7 @@ public class Login_gui extends JPanel  {
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setBounds(58, 5, 322, 133);
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\\u05DC\u05D9\u05E8\u05DF\\Desktop\\workspace\\GUI_pro\\\u05DC\u05D5\u05D2\u05D5_320x137.jpg"));
+		lblNewLabel.setIcon(new ImageIcon(System.getProperty("user.dir")+ "\\logo.jpg"));
 		add(lblNewLabel);
 		
 		passwordField = new JPasswordField();

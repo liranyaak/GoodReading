@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.awt.Font;
@@ -22,30 +23,18 @@ import javax.swing.JButton;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-<<<<<<< HEAD
 import Controllers.*;
-=======
-import entity.User;
-import Controllers.LogoutController;
-import Controllers.WriteReviewController;
-import Controllers.loginController;
->>>>>>> 7cd5a4e9d6ef140b3373450525f2856f7ea03650
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class mainFrame extends JFrame {
-<<<<<<< HEAD
     private User user;
+    private Book book;
     private ArrayList<Book> books;
+    private ArrayList<Subject> subjects;
     private int selection=-1;
-=======
-    public User user;
-    public String id="0";
-    private ArrayList<Book> books;
-
->>>>>>> 7cd5a4e9d6ef140b3373450525f2856f7ea03650
 	private Signin_gui signin_gui ;
     private Login_gui login_gui;
     private ReaderGui reader_gui;
@@ -81,6 +70,7 @@ public class mainFrame extends JFrame {
 	private ReportDisplayReaderGui reportDisplayReaderGui;
 	private SearchBookResultGui reportSearchBookResultGui;
 	private ReportBookDisplayGui reportBookDisplayGui;
+	private AddBookCatRangGui addBookCatRangGui;
 	private About_us about_us;
 	
 	private int permmision=0;
@@ -129,6 +119,7 @@ public class mainFrame extends JFrame {
 	    reportDisplayReaderGui=new ReportDisplayReaderGui();
 	    reportSearchBookResultGui=new SearchBookResultGui();
 	    reportBookDisplayGui=new ReportBookDisplayGui();
+	    addBookCatRangGui=new AddBookCatRangGui();
 		add(login_gui); // place the first panel in the frame 
 		add(signin_gui);
 		
@@ -155,7 +146,6 @@ public class mainFrame extends JFrame {
 					loginController login_con=new loginController(login_gui.IDtextPane.getText(), login_gui.passwordField.getText());
 					permmision=Integer.parseInt(login_con.getUser().getPrmission());
 					copyUser(login_con.getUser());
-					id=user.getId();
 					openPanelByjob();
 				}
 				
@@ -543,7 +533,6 @@ public class mainFrame extends JFrame {
 		}
 	});
 	   editor_gui.btnWriteAReview.addActionListener(new ActionListener() {
-<<<<<<< HEAD
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -564,28 +553,6 @@ public class mainFrame extends JFrame {
 		
 		}
 	});
-=======
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				WriteReviewController writeReviewContoller=new WriteReviewController(user.getId());
-				books=writeReviewContoller.getBooksList();
-				if(books.size()==0)
-					JOptionPane.showMessageDialog(null,"You Dont Have Books To review");
-				else{
-				add(bookListToReviewGui);
-				bookListToReviewGui.setVisible(true);
-				editor_gui.setVisible(false);
-				DefaultListModel<String> model = new DefaultListModel<>();
-				bookListToReviewGui.BookList.setModel(model);
-				for(int i=0;i<books.size();i++)model.addElement(books.get(i).getTitle());
-				}
-				
-			
-			}
-	   });
->>>>>>> 7cd5a4e9d6ef140b3373450525f2856f7ea03650
 	   editor_gui.btnLogout.addActionListener(new ActionListener() {
 		
 		@Override
@@ -817,6 +784,39 @@ public class mainFrame extends JFrame {
    			
    		}
        });
+       
+       /////////////////////add book button//////////////////////////////////
+       addBookGui.AddButton.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			//
+			//book = new Book("",addBookGui.textPaneBookName.getText(), addBookGui.textPaneLanguage.getText(), addBookGui.textAreaTableOfContent.getText(), Float.parseFloat(addBookGui.textPaneCost.getText()), addBookGui.textAreaSummery.getText(), Integer.valueOf(addBookGui.textPaneAuters.getText()));
+			//addBookGui.setVisible(false);
+			
+			
+			
+			book = new Book("", "title", "language", "tableOfContents", 10, "summery", 1);
+			addBookController addBook_con = new addBookController(book);
+			subjects = addBook_con.getSubjectsList();
+   			add(addBookCatRangGui);
+   			addBookGui.setVisible(false);
+   			addBookCatRangGui.setVisible(true);
+			//addBook_con = new addBookController(book,subjects);
+   			//for(int i=0; i< subjects.size();i++){
+   				
+   				//Component temporaryLostComponent;
+			//	addBookCatRangGui.chckbxNewCheckBox.add("jashdjsahd", temporaryLostComponent);
+   				
+   				//addBookCatRangGui.chckbxNewCheckBox.setText(subjects.get(i).getName());
+   				//}
+			
+			 
+			//addBookCatRangGui.chckbxNewCheckBox.setText();
+		}
+	});
+       
        ///////////////////////payment request//////////////////
        paymantRequstListGui.btnBack.addActionListener(new ActionListener() {
       		@Override

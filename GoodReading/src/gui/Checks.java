@@ -106,7 +106,19 @@ public class Checks
 		
 		
 	}
-
+	public boolean check_addbook(AddBookGui addBookGui)
+	{
+	
+		if(!(check_Str_not_null(addBookGui.textPaneAuters.getText())||check_Str_not_null(addBookGui.textPaneBookName.getText())|| check_Str_not_null(addBookGui.textPaneCost.getText())||check_Str_not_null(addBookGui.textPaneLanguage.getText())||check_Str_not_null(addBookGui.textPaneRangeName.getText())||check_Str_not_null(addBookGui.textPaneSubjectName.getText())))
+		{
+			
+			JOptionPane.showMessageDialog(null,"All fields are empty");
+			return false;
+		}
+		  return true;
+		
+		
+	}
 	
 	
 	public boolean check_Srt_only_num(String str) 

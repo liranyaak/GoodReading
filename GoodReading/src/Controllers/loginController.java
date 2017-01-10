@@ -38,7 +38,7 @@ public class loginController extends Main_con {
         login_input.clear();
         login_input.add("update");
         login_input.add("users");
-        login_input.add("log_in = 1");
+        login_input.add("log_in = 0");
         login_input.add("user_id = "+user.getId());
         System.out.println(login_input);
         client.handleMessageFromClientUI(login_input);

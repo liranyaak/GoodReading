@@ -23,7 +23,7 @@ public class mysqlConnection {
 	    catch (Exception localException) {}
 	    try
 	    {
-	      this.conn = DriverManager.getConnection("jdbc:mysql://mysql5006.smarterasp.net/db_a1588d_pro", "a1588d_pro", "braudebraude2016");
+	      this.conn = DriverManager.getConnection("jdbc:mysql://localhost/db_a1588d_pro", "root", "Braude");
 	      
 	      System.out.println("SQL connection succeed");
 	    }
@@ -42,7 +42,8 @@ public static ArrayList<String> select(String table,String where, Connection con
 	 Statement stmt = con.createStatement();
 	 ResultSet rs;
 	 String query = "SELECT * FROM "+table+" WHERE "+where+";";
-	 
+	System.out.println("[ DEBUG ] :: SELECT * FROM "+table+" WHERE "+where+";");
+
 	 rs = stmt.executeQuery(query);
 	 ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
 	 int colums = rsmd.getColumnCount();
@@ -81,6 +82,8 @@ public static int update(String table,String set,String where, Connection con){
 	try
     {
       PreparedStatement pstmt = con.prepareStatement("UPDATE "+table+" SET "+set +" WHERE "+where);
+		System.out.println("[ DEBUG ] :: UPDATE "+table+" SET "+set +" WHERE "+where);
+
       count=pstmt.executeUpdate();
     }
     catch (SQLException e)
@@ -96,6 +99,7 @@ public static int delete(String table,String rKey,String rValue, Connection con)
     {
 		Statement stmt = con.createStatement();
 		String sql = "DELETE FROM " + table + "WHERE "+ rKey +"="+ rValue;
+		System.out.println("[ DEBUG ] :: DELETE FROM " + table + "WHERE "+ rKey +"="+ rValue);
 		count = stmt.executeUpdate(sql);
     }
     catch (SQLException e)
@@ -112,6 +116,8 @@ public static int insert(String table,String iKey,String iValue, Connection con)
     {
 		Statement stmt = con.createStatement();
 		String sql = "INSERT INTO " + table + "(" + iKey +") VALUES ("+ iValue +")";
+		System.out.println("[ DEBUG ] :: INSERT INTO " + table + "(" + iKey +") VALUES ("+ iValue +")");
+
 		result = stmt.executeUpdate(sql);
     }
     catch (SQLException e)

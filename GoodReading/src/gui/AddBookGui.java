@@ -13,7 +13,7 @@ import java.awt.Font;
 public class AddBookGui extends JPanel {
 
 	public JButton BackButton;
-	public JButton AddButton;
+	public JButton NextButton;
 	public JTextPane textPaneBookName,textPaneAuters,textPaneSubjectName,textPaneCost,textPaneRangeName,textPaneLanguage;
 	public JTextArea textAreaTableOfContent,textAreaSummery;
 
@@ -114,10 +114,10 @@ public class AddBookGui extends JPanel {
 		textPaneCost.setBounds(228, 480, 125, 33);
 		add(textPaneCost);
 		
-		AddButton = new JButton("Add");
-		AddButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		AddButton.setBounds(567, 568, 171, 41);
-		add(AddButton);
+		NextButton = new JButton("Next");
+		NextButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		NextButton.setBounds(567, 568, 171, 41);
+		add(NextButton);
 		
 		
 		BackButton = new JButton("Back");

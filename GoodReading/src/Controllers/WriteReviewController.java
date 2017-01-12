@@ -11,6 +11,7 @@ public class WriteReviewController extends Main_con{
 	public Book tmpBook;
 	
 	
+
 	public WriteReviewController(String ID) /// change password and to user class
 	{
 		super();
@@ -32,8 +33,12 @@ public class WriteReviewController extends Main_con{
 	        
 	          flag =true;
 	          books= new ArrayList<Book>();
+
+
 	          for(i=0;i<tmp.size();i++){
 	        	bookList.clear();
+
+
 	        	System.out.println("bookList:"+bookList);
 	        	bookList.add("select"); 									//type of the query
 	  	        bookList.add("book");    									//from
@@ -64,12 +69,16 @@ public class WriteReviewController extends Main_con{
             flag=false;
 		}
 		 
+
+
 		 if(stage!=0){
 		  tmpBook.clear();
 		  tmpBook.setBookId(((ArrayList<String>) message).get(1));
 		  tmpBook.setTitle(((ArrayList<String>) message).get(2));
 		  tmpBook.setLanguage(((ArrayList<String>) message).get(3));
 		  tmpBook.setSummery(((ArrayList<String>) message).get(4));
+
+
 		  tmpBook.setCost(Float.parseFloat((((ArrayList<String>) message).get(5))));
 		  tmpBook.setSearchCount(Integer.parseInt(((ArrayList<String>) message).get(6)));
 		  tmpBook.setVisable(Boolean.parseBoolean(((ArrayList<String>) message).get(7)));
@@ -79,16 +88,21 @@ public class WriteReviewController extends Main_con{
 		  System.out.println("books"+books);
 		  flag=false;
 
+
 		}
 		
 		
 		
+
+
 		
 		
 	}
 public ArrayList<Book> getBooksList(){
 	
 	return this.books;
+
+
 }
 }
 

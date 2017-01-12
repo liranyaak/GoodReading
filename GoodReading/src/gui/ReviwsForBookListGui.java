@@ -26,7 +26,7 @@ public class ReviwsForBookListGui extends JPanel {
 		lblReviewsForBook.setBounds(165, 28, 395, 69);
 		add(lblReviewsForBook);
 		
-		JLabel lblPleaseChooseReview = new JLabel("Please Choose Review To Form The List");
+		JLabel lblPleaseChooseReview = new JLabel("Please Choose Review Form The List");
 		lblPleaseChooseReview.setBounds(50, 125, 513, 33);
 		add(lblPleaseChooseReview);
 		
@@ -40,12 +40,12 @@ public class ReviwsForBookListGui extends JPanel {
 		
 		btnOk = new JButton("Ok");
 		btnOk.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		btnOk.setBounds(50, 570, 171, 41);
+		btnOk.setBounds(521, 581, 171, 41);
 		add(btnOk);
 		
 	    btnBack = new JButton("Back");
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		btnBack.setBounds(521, 570, 171, 41);
+		btnBack.setBounds(50, 581, 171, 41);
 		add(btnBack);
 
 	}

@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
@@ -23,10 +24,18 @@ import javax.swing.JButton;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+
+
+
+
+
+
 import Controllers.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class mainFrame extends JFrame {
@@ -34,7 +43,12 @@ public class mainFrame extends JFrame {
     private Book book;
     private ArrayList<Book> books;
     private ArrayList<Subject> subjects;
+    private ArrayList<Review> reviews;
     private int selection=-1;
+
+    public String id="0";
+    private String bookId;/////////////////////////for checking//////////////////
+    private ArrayList<String> detials ;
 	private Signin_gui signin_gui ;
     private Login_gui login_gui;
     private ReaderGui reader_gui;
@@ -359,11 +373,13 @@ public class mainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				selection=-1;
 				bookListToReviewGui.BookList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				selection=bookListToReviewGui.BookList.getSelectedIndex();
 				if(selection!=-1){
 				// System.out.println("the choosen one "+books.get(selection));
 				add(writeReviewGui);
+				writeReviewGui.textAreaReview.setText("");
 				writeReviewGui.setVisible(true);
 				bookListToReviewGui.setVisible(false);
 				}
@@ -387,7 +403,8 @@ public class mainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(writeReviewGui.textAreaReview.getText()==null){
+				
+				if(writeReviewGui.textAreaReview.getText().equals("")){
 					JOptionPane.showMessageDialog(null,"You MUST enter a review");
 				}
 				else{	
@@ -441,18 +458,47 @@ public class mainFrame extends JFrame {
 	    	@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				add(reviewsForBookList);
-				bookDisplayGui.setVisible(false);
-				reviewsForBookList.setVisible(true);
+	    		bookId=new String("2");///////////for checking///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	    		ReviewsForBookListContoller reviewsForBookListContoller=new ReviewsForBookListContoller(bookId);
+	    		reviews=reviewsForBookListContoller.getReviewsList();
+	    		if(reviews.isEmpty())JOptionPane.showMessageDialog(null,"There is NO reviews for this book!!");
+	    	  	else{
+	    	  		 
+	    	  		 DefaultListModel<String> model = new DefaultListModel<>();
+	    	  		 reviewsForBookList.listReview.setModel(model);
+	    			 for(int i=0;i<reviews.size();i++)model.addElement("Review No.: "+reviews.get(i).getReviewId());
+	    			 add(reviewsForBookList);
+	    			 bookDisplayGui.setVisible(false);
+	    			 reviewsForBookList.setVisible(true);
+	    	  		 }
+				
 			}
 		});
 	    reviewsForBookList.btnOk.addActionListener(new ActionListener(){
 	    	@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				add(reviewDisplayGui);
+	    		selection=-1;
+	    		reviewsForBookList.listReview.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	    		selection=reviewsForBookList.listReview.getSelectedIndex();
+	    		ArrayList<Review> temp=new ArrayList<Review>();
+	    		
+	    		if(selection!=-1){
+	    		temp.add(reviews.get(selection));
+	    		System.out.println("ttttttttttttttt"+temp);
+		    	ReviewDetailsContoller reviewDetailsContoller=new ReviewDetailsContoller(temp);
+		    	detials =new ArrayList<String>();
+				detials=reviewDetailsContoller.getDetials();
+				System.out.println("dddddddddd"+detials);
+	    		reviewDisplayGui.textAreaContent.setText(reviews.get(selection).getContentReview());
+	    		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+	    		reviewDisplayGui.textPaneDate.setText(dateFormat.format(reviews.get(selection).getReviewDate()));
+	    		reviewDisplayGui.textPaneReviewerId.setText(reviews.get(selection).getUserId());
+	    		reviewDisplayGui.textPaneReviewerName.setText(detials.get(0));
+	    		add(reviewDisplayGui);
 				reviewDisplayGui.setVisible(true);
 				reviewsForBookList.setVisible(false);
+	    		}
 			}
 		});
 	    reviewDisplayGui.btnBack.addActionListener(new ActionListener(){
@@ -468,9 +514,20 @@ public class mainFrame extends JFrame {
 	    	@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+	    		reviewsForBookList.setVisible(false);
+	    		if(permmision==4){
+	    			add(managerBookDisplayGui);
+	    			managerBookDisplayGui.setVisible(true);
+	    		}
+	    		else if(permmision==3){
+	    			add(librarianBookDisplayGui);
+	    			librarianBookDisplayGui.setVisible(true);
+	    			
+	    		}
+	    		else{
 				add(bookDisplayGui);
 				bookDisplayGui.setVisible(true);
-				reviewsForBookList.setVisible(false);
+	    		}
 			}
 		});
 	    bookDisplayGui.PurchaseButton.addActionListener(new ActionListener(){
@@ -533,6 +590,8 @@ public class mainFrame extends JFrame {
 		}
 	});
 	   editor_gui.btnWriteAReview.addActionListener(new ActionListener() {
+
+
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -553,6 +612,8 @@ public class mainFrame extends JFrame {
 		
 		}
 	});
+
+
 	   editor_gui.btnLogout.addActionListener(new ActionListener() {
 		
 		@Override
@@ -585,10 +646,24 @@ public class mainFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			UncheckdReviewsListContoller uncheckdReviewsListContoller =new UncheckdReviewsListContoller();
+  			reviews=uncheckdReviewsListContoller.getReviewsList();
+  			if(reviews.isEmpty())JOptionPane.showMessageDialog(null,"There is NO reviews to Check!!");
+  			else{
+  			int k=0;
+  			DefaultListModel<String> model = new DefaultListModel<>();
+			ReviewDetailsContoller reviewDetailsContoller= new ReviewDetailsContoller(reviews);
+			detials =new ArrayList<String>();
+			detials=reviewDetailsContoller.getDetials();
+			reviewToCheackGui.Reviewlist.setModel(model);
+			for(int i=0;i<reviews.size();i++){
+				model.addElement("Review No.: "+reviews.get(i).getReviewId()+"  ||  Book Title: "+detials.get(k+1)+"  ||  Reviewer Full Name: "+detials.get(k));
+				k=k+2;;
+			}
 			add(reviewToCheackGui);
 			reviewToCheackGui.setVisible(true);
 			editor_gui.setVisible(false);
-			
+  			}
 		}
 	});	
        ////////////////////////////////////////////////
@@ -612,10 +687,20 @@ public class mainFrame extends JFrame {
       		@Override
       		public void actionPerformed(ActionEvent e) {
       			// TODO Auto-generated method stub
-      			
+      			selection=-1;
+      			reviewToCheackGui.Reviewlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+      			selection=reviewToCheackGui.Reviewlist.getSelectedIndex();
+      			if(selection!=-1){
+      			reviewCheckingGui.textPaneReviewerId.setText(reviews.get(selection).getUserId());
+      			reviewCheckingGui.textPaneReviewerName.setText(detials.get(selection*2));
+      			reviewCheckingGui.textPaneTitle.setText(detials.get(selection*2+1));
+      			reviewCheckingGui.textAreaContnt.setText(reviews.get(selection).getContentReview());
+      			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+      			reviewCheckingGui.textPaneDate.setText(dateFormat.format(reviews.get(selection).getReviewDate()));
       			reviewToCheackGui.setVisible(false);
       			reviewCheckingGui.setVisible(true);
       			add(reviewCheckingGui);
+      			}
       			
       		}
       	});
@@ -632,6 +717,33 @@ public class mainFrame extends JFrame {
      			
      		}
      	});
+       reviewCheckingGui.btnApprove.addActionListener(new ActionListener() {
+    		@Override
+    		public void actionPerformed(ActionEvent e) {
+    			// TODO Auto-generated method stub
+    			reviews.get(selection).setContentReview(reviewCheckingGui.textAreaContnt.getText());
+    			ReviewCheckDecisionContoller reviewCheckDecisionContoller=new ReviewCheckDecisionContoller(true,reviews.get(selection));
+    			JOptionPane.showMessageDialog(null,"The Review APPROVED!!");
+    			reviewCheckingGui.setVisible(false);
+    			if(permmision==2)editor_gui.setVisible(true);
+    			else if(permmision==3)librarian_gui.setVisible(true);
+    			else libraryManager_gui.setVisible(true);
+    		
+    		}
+    	});
+         reviewCheckingGui.btnReject.addActionListener(new ActionListener() {
+ 		@Override
+ 		public void actionPerformed(ActionEvent e) {
+ 			// TODO Auto-generated method stub
+ 			ReviewCheckDecisionContoller reviewCheckDecisionContoller=new ReviewCheckDecisionContoller(false,reviews.get(selection));
+ 			JOptionPane.showMessageDialog(null,"The Review NOT APPROVED And DELETED Form The System!!");
+ 			reviewCheckingGui.setVisible(false);
+ 			if(permmision==2)editor_gui.setVisible(true);
+ 			else if(permmision==3)librarian_gui.setVisible(true);
+ 			else libraryManager_gui.setVisible(true);
+ 		
+ 		}
+ 	});
        ///////////////////////////////////////////////////////////////////
       //////////////////////////librarianGui//////////////////////////////
        librarian_gui.btnBookSearch.addActionListener(new ActionListener() {
@@ -695,13 +807,28 @@ public class mainFrame extends JFrame {
    	});
        librarian_gui.btnCheckReview.addActionListener(new ActionListener() {
    		
-   		@Override
+
+    	   @Override
    		public void actionPerformed(ActionEvent e) {
    			// TODO Auto-generated method stub
+   			UncheckdReviewsListContoller uncheckdReviewsListContoller =new UncheckdReviewsListContoller();
+     			reviews=uncheckdReviewsListContoller.getReviewsList();
+     			if(reviews.size()==0)JOptionPane.showMessageDialog(null,"There is NO reviews to Check!!");
+     			else{
+     			int k=0;
+     			DefaultListModel<String> model = new DefaultListModel<>();
+   			ReviewDetailsContoller reviewDetailsContoller= new ReviewDetailsContoller(reviews);
+   			detials =new ArrayList<String>();
+   			detials=reviewDetailsContoller.getDetials();
+   			reviewToCheackGui.Reviewlist.setModel(model);
+   			for(int i=0;i<reviews.size();i++){
+   				model.addElement("Review No.: "+reviews.get(i).getReviewId()+"  ||  Book Title: "+detials.get(k+1)+"  ||  Reviewer Full Name: "+detials.get(k));
+   				k=k+2;;
+   			}
    			add(reviewToCheackGui);
    			reviewToCheackGui.setVisible(true);
    			librarian_gui.setVisible(false);
-   			
+     			}
    		}
    	});	
        librarian_gui.btnAddBook.addActionListener(new ActionListener() {
@@ -771,6 +898,26 @@ public class mainFrame extends JFrame {
     			
     		}
     	});
+       librarianBookDisplayGui.ReadReviewButton.addActionListener(new ActionListener(){
+	    	@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+	    		bookId=new String("2");///////////for checking/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	    		ReviewsForBookListContoller reviewsForBookListContoller=new ReviewsForBookListContoller(bookId);
+	    		reviews=reviewsForBookListContoller.getReviewsList();
+	    		if(reviews.isEmpty())JOptionPane.showMessageDialog(null,"There is NO reviews for this book!!");
+	    	  	else{
+	    	  		 
+	    	  		 DefaultListModel<String> model = new DefaultListModel<>();
+	    	  		 reviewsForBookList.listReview.setModel(model);
+	    			 for(int i=0;i<reviews.size();i++)model.addElement("Review No.: "+reviews.get(i).getReviewId());
+	    			 add(reviewsForBookList);
+	    			 librarianBookDisplayGui.setVisible(false);
+	    			 reviewsForBookList.setVisible(true);
+	    	  		 }
+				
+			}
+		});
        /////////////////////add book///////////////////////////////////
        addBookGui.BackButton.addActionListener(new ActionListener() {
    		@Override
@@ -786,7 +933,7 @@ public class mainFrame extends JFrame {
        });
        
        /////////////////////add book button//////////////////////////////////
-       addBookGui.AddButton.addActionListener(new ActionListener() {
+       addBookGui.NextButton.addActionListener(new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -795,14 +942,40 @@ public class mainFrame extends JFrame {
 			//book = new Book("",addBookGui.textPaneBookName.getText(), addBookGui.textPaneLanguage.getText(), addBookGui.textAreaTableOfContent.getText(), Float.parseFloat(addBookGui.textPaneCost.getText()), addBookGui.textAreaSummery.getText(), Integer.valueOf(addBookGui.textPaneAuters.getText()));
 			//addBookGui.setVisible(false);
 			
-			
-			
+			/*
+			JCheckBox checkBox1 = new JCheckBox();
+		    checkBox1.setText("1");
+		    checkBox1.setBounds(62, 88, 113, 25);
+		    addBookCatRangGui.chckbxNewCheckBox.addActionListener(e -> java.lang.System.out.println(checkBox1.getText() + " selection changed"));
+
+		    addBookCatRangGui.panel.add(checkBox1);
+		    
+			JCheckBox checkBox2 = new JCheckBox();
+
+			checkBox2.setText("2");
+			checkBox2.setBounds(62, 126, 113, 25);
+		    addBookCatRangGui.chckbxNewCheckBox.addActionListener(e -> java.lang.System.out.println(checkBox2.getText() + " selection changed"));
+
+		    addBookCatRangGui.panel.add(checkBox2);
+
+			JCheckBox checkBox3 = new JCheckBox();
+
+			checkBox3.setText("3");
+			checkBox3.setBounds(62, 140, 113, 25);
+
+		    addBookCatRangGui.chckbxNewCheckBox.addActionListener(e -> java.lang.System.out.println(checkBox3.getText() + " selection changed"));
+
+		    addBookCatRangGui.panel.add(checkBox3);
+*/
+
 			book = new Book("", "title", "language", "tableOfContents", 10, "summery", 1);
 			addBookController addBook_con = new addBookController(book);
 			subjects = addBook_con.getSubjectsList();
+			addBookCatRangGui.setSubjectsList(subjects);
    			add(addBookCatRangGui);
    			addBookGui.setVisible(false);
-   			addBookCatRangGui.setVisible(true);
+   			addBookCatRangGui.setVisible(true); 
+   			
 			//addBook_con = new addBookController(book,subjects);
    			//for(int i=0; i< subjects.size();i++){
    				
@@ -814,6 +987,19 @@ public class mainFrame extends JFrame {
 			
 			 
 			//addBookCatRangGui.chckbxNewCheckBox.setText();
+		}
+	});
+       
+       
+       /////////////////////// add book select category :: back button  ///////////////
+       addBookCatRangGui.BackButton.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			addBookCatRangGui.setVisible(false);
+			addBookGui.setVisible(true);
+			
 		}
 	});
        
@@ -998,15 +1184,29 @@ public class mainFrame extends JFrame {
        	   	});
              libraryManager_gui.btnCheckReview.addActionListener(new ActionListener() {
        	   		
-       	   		@Override
-       	   		public void actionPerformed(ActionEvent e) {
-       	   			// TODO Auto-generated method stub
-       	   			add(reviewToCheackGui);
-       	   			reviewToCheackGui.setVisible(true);
-       	   		libraryManager_gui.setVisible(false);
-       	   			
-       	   		}
-       	   	});	
+            	 @Override
+         		public void actionPerformed(ActionEvent e) {
+         			// TODO Auto-generated method stub
+         			UncheckdReviewsListContoller uncheckdReviewsListContoller =new UncheckdReviewsListContoller();
+           			reviews=uncheckdReviewsListContoller.getReviewsList();
+           			if(reviews.size()==0)JOptionPane.showMessageDialog(null,"There is NO reviews to Check!!");
+           			else{
+           			int k=0;
+           			DefaultListModel<String> model = new DefaultListModel<>();
+         			ReviewDetailsContoller reviewDetailsContoller= new ReviewDetailsContoller(reviews);
+         			detials =new ArrayList<String>();
+         			detials=reviewDetailsContoller.getDetials();
+         			reviewToCheackGui.Reviewlist.setModel(model);
+         			for(int i=0;i<reviews.size();i++){
+         				model.addElement("Review No.: "+reviews.get(i).getReviewId()+"  ||  Book Title: "+detials.get(k+1)+"  ||  Reviewer Full Name: "+detials.get(k));
+         				k=k+2;;
+         			}
+         			add(reviewToCheackGui);
+         			reviewToCheackGui.setVisible(true);
+         			libraryManager_gui.setVisible(false);
+           			}
+         		}
+         	});	
              libraryManager_gui.btnAddBook.addActionListener(new ActionListener() {
        	      		
        	      		@Override
@@ -1079,10 +1279,31 @@ public class mainFrame extends JFrame {
        		@Override
         		public void actionPerformed(ActionEvent e) {
         			// TODO Auto-generated method stub
+       			
        			searchBookResultGui.setVisible(true);
        			managerBookDisplayGui.setVisible(false);
        		}
        		});	
+         managerBookDisplayGui.ReadReviewButton.addActionListener(new ActionListener(){
+ 	    	@Override
+ 			public void actionPerformed(ActionEvent e) {
+ 				// TODO Auto-generated method stub
+ 	    		bookId=new String("2");///////////for checking/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 	    		ReviewsForBookListContoller reviewsForBookListContoller=new ReviewsForBookListContoller(bookId);
+ 	    		reviews=reviewsForBookListContoller.getReviewsList();
+ 	    		if(reviews.isEmpty())JOptionPane.showMessageDialog(null,"There is NO reviews for this book!!");
+ 	    	  	else{
+ 	    	  		 
+ 	    	  		 DefaultListModel<String> model = new DefaultListModel<>();
+ 	    	  		 reviewsForBookList.listReview.setModel(model);
+ 	    			 for(int i=0;i<reviews.size();i++)model.addElement("Review No.: "+reviews.get(i).getReviewId());
+ 	    			 add(reviewsForBookList);
+ 	    			 managerBookDisplayGui.setVisible(false);
+ 	    			 reviewsForBookList.setVisible(true);
+ 	    	  		 }
+ 				
+ 			}
+ 		});
          /////////////////////manager edit accunt gui///////////////////
          managerEditAccuntGui.BackButton.addActionListener(new ActionListener() {
        		@Override
@@ -1284,9 +1505,3 @@ public class mainFrame extends JFrame {
 	}
 	
 }
-
-
-
-	
-	
-	

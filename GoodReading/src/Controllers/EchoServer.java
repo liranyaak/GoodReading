@@ -119,7 +119,7 @@ public class EchoServer extends AbstractServer
 				
 			  }
 			}
-	     else if(type.equals("remove")){
+	     else if(type.equals("delete")){
 				try 
 				 { 
 				  String table = ((ArrayList<String>) msg).get(1);

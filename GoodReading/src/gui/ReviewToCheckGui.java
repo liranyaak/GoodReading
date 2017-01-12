@@ -8,12 +8,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
 import java.awt.Color;
+import javax.swing.JList;
 
 public class ReviewToCheckGui extends JPanel {
-	private JTable table;
-	public JTextPane textPaneReviewToCheck;
 	public JButton btnOk,btnBack;
-
+    public JList Reviewlist ;
 	/**
 	 * Create the panel.
 	 */
@@ -26,22 +25,6 @@ public class ReviewToCheckGui extends JPanel {
 		lblNewLabel.setBounds(160, 28, 434, 53);
 		add(lblNewLabel);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(86, 109, 558, 354);
-		add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		
-		JLabel lblReviewNumTo = new JLabel("Review Num To Cheack:");
-		lblReviewNumTo.setBounds(96, 491, 297, 33);
-		add(lblReviewNumTo);
-		
-		textPaneReviewToCheck = new JTextPane();
-		textPaneReviewToCheck.setBackground(Color.LIGHT_GRAY);
-		textPaneReviewToCheck.setBounds(411, 491, 180, 33);
-		add(textPaneReviewToCheck);
-		
 		btnOk = new JButton("Ok");
 	    btnOk.setFont(new Font("Tahoma", Font.PLAIN, 23));
 		btnOk.setBounds(473, 563, 171, 41);
@@ -51,6 +34,13 @@ public class ReviewToCheckGui extends JPanel {
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 23));
 		btnBack.setBounds(86, 563, 171, 41);
 		add(btnBack);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(147, 103, 470, 439);
+		add(scrollPane);
+		
+        Reviewlist = new JList();
+		scrollPane.setViewportView(Reviewlist);
 
 	}
 }

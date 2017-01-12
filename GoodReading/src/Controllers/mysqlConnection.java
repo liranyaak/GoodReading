@@ -85,6 +85,7 @@ public static int update(String table,String set,String where, Connection con){
 		System.out.println("[ DEBUG ] :: UPDATE "+table+" SET "+set +" WHERE "+where);
 
       count=pstmt.executeUpdate();
+
     }
     catch (SQLException e)
     {
@@ -98,7 +99,7 @@ public static int delete(String table,String rKey,String rValue, Connection con)
 	try
     {
 		Statement stmt = con.createStatement();
-		String sql = "DELETE FROM " + table + "WHERE "+ rKey +"="+ rValue;
+		String sql = "DELETE FROM " + table + " WHERE "+ rKey +"="+ rValue;
 		System.out.println("[ DEBUG ] :: DELETE FROM " + table + "WHERE "+ rKey +"="+ rValue);
 		count = stmt.executeUpdate(sql);
     }

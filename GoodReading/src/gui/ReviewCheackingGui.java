@@ -14,8 +14,8 @@ import javax.swing.JScrollPane;
 public class ReviewCheackingGui extends JPanel {
 
 	public JButton btnApprove,btnReject, btnBack;
-	public JTextPane textPaneTitle,textPaneReviewerId,textPaneReviewerName;
-	public JTextArea textAreaReview;
+	public JTextPane textPaneTitle,textPaneReviewerId,textPaneReviewerName, textPaneDate;
+	public JTextArea textAreaContnt ;
 	
 	/**
 	 * Create the panel.
@@ -44,7 +44,7 @@ public class ReviewCheackingGui extends JPanel {
 		add(lblYouCanEdit);
 		
 		JLabel lblTitle = new JLabel("Title:");
-		lblTitle.setBounds(72, 166, 115, 33);
+		lblTitle.setBounds(62, 166, 115, 33);
 		add(lblTitle);
 		
 		textPaneTitle = new JTextPane();
@@ -58,6 +58,7 @@ public class ReviewCheackingGui extends JPanel {
 		add(lblReviewerId);
 		
 		textPaneReviewerId = new JTextPane();
+		textPaneReviewerId.setEditable(false);
 		textPaneReviewerId.setBackground(Color.LIGHT_GRAY);
 		textPaneReviewerId.setBounds(515, 166, 150, 33);
 		add(textPaneReviewerId);
@@ -72,23 +73,32 @@ public class ReviewCheackingGui extends JPanel {
 		lblReviewerFullName.setBounds(62, 227, 263, 33);
 		add(lblReviewerFullName);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(62, 335, 603, 218);
-		add(scrollPane);
-		
-		textAreaReview = new JTextArea();
-		scrollPane.setViewportView(textAreaReview);
-		textAreaReview.setBackground(Color.LIGHT_GRAY);
-		textAreaReview.setForeground(Color.WHITE);
-		
 		JLabel lblNewLabel = new JLabel("Review:");
-		lblNewLabel.setBounds(62, 288, 115, 33);
+		lblNewLabel.setBounds(62, 332, 115, 33);
 		add(lblNewLabel);
 		
 		btnBack = new JButton("Back");
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 23));
 		btnBack.setBounds(62, 570, 171, 41);
 		add(btnBack);
+		
+		JLabel lblDateOfSending = new JLabel("Date Of Sending:");
+		lblDateOfSending.setBounds(61, 282, 204, 33);
+		add(lblDateOfSending);
+		
+		textPaneDate = new JTextPane();
+		textPaneDate.setBackground(Color.LIGHT_GRAY);
+		textPaneDate.setEditable(false);
+		textPaneDate.setBounds(281, 282, 200, 33);
+		add(textPaneDate);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(62, 393, 607, 167);
+		add(scrollPane);
+		
+		textAreaContnt = new JTextArea();
+		scrollPane.setViewportView(textAreaContnt);
+		textAreaContnt.setBackground(Color.LIGHT_GRAY);
 
 	}
 }

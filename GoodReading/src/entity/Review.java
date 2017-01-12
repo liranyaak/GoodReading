@@ -10,7 +10,8 @@ public class Review {
 	boolean chackStatus;
 	Date reviewDate;
 	String contentReview;
-	
+	String userId;
+	String bookId;
 	public Review (String contentReview)
 	{
 		/*this.reviewId=null;
@@ -24,22 +25,25 @@ public class Review {
 		this.chackStatus=false;
 		this.reviewDate=null;
 		this.contentReview=null;
+		this.bookId=null;
+		this.userId=null;
 	}
-	public void updateCheckStatus (boolean chackStatus)
-	{
-		this.chackStatus=chackStatus;
+	public Review(Review review){
+		this.reviewId=review.getReviewId();
+		this.chackStatus=review.getChackStatus();
+		this.reviewDate=review.getReviewDate();
+		this.contentReview=review.getContentReview();
+		this.bookId=review.bookId;
+		this.userId=review.getUserId();
 	}
-	public void updateContent()
-	{
-		this.contentReview="TO FILL!!!!";
-	}
+	
 	public String getReviewId() {
 		return reviewId;
 	}
 	public void setReviewId(String reviewId) {
 		this.reviewId = reviewId;
 	}
-	public boolean isChackStatus() {
+	public boolean getChackStatus() {
 		return chackStatus;
 	}
 	public void setChackStatus(boolean chackStatus) {
@@ -57,11 +61,32 @@ public class Review {
 	public void setContentReview(String contentReview) {
 		this.contentReview = contentReview;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserID(String userId) {
+		this.userId = userId;
+	}
+	public String getBookId() {
+		return bookId;
+	}
+	public void setBookid(String bookId) {
+		this.bookId = bookId;
+	}
 	@Override
 	public String toString() {
 		return "Review [reviewId=" + reviewId + ", chackStatus=" + chackStatus
 				+ ", reviewDate=" + reviewDate + ", contentReview="
 				+ contentReview + "]";
+	}
+	public void clear(){
+		this.reviewId=null;
+		this.chackStatus=false;
+		this.reviewDate=null;
+		this.contentReview=null;
+		this.bookId=null;
+		this.userId=null;
+		
 	}
 	
 }

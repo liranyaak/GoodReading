@@ -370,6 +370,16 @@ public class mainFrame extends JFrame {
 					add(searchBookResultGui);
 					searchBookResultGui.setVisible(true);
 					searchBookGui.setVisible(false);
+					String title=searchBookGui.TitletextPane.getText();
+					String author=searchBookGui.AutortextPane.getText();
+					String subject=searchBookGui.RangetextPane.getText();
+					String range=searchBookGui.RangetextPane.getText();
+					String keyword=searchBookGui.KeyWordstextPane.getText();
+					SearchBookController searchBookCon=new SearchBookController(title, author, subject, range, keyword);
+					books=searchBookCon.getBooksList();
+					System.out.println(books);
+					searchBookResultGui.setVisible(true);
+					searchBookGui.setVisible(false);
 				}
 			}
 		});

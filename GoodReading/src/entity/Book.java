@@ -4,20 +4,23 @@
 /*Shay made-3.1.17*/
 package entity;
 
+import java.util.ArrayList;
+
 public class Book {
 	String bookId;
 	String title;
-	String language;
+	int language;
 	String tableOfContents;
 	String summery;
 	float cost;
 	int searchCount;
 	boolean visable;
 	int porcheseCount;
-	int author;
+	ArrayList<Integer> subjects_id;
+	ArrayList<Integer> authors_id;
 	
-	public Book(String bookId, String title, String language ,
-			String tableOfContents, float cost,String summery,int author)
+	public Book(String bookId, String title, int language ,
+			String tableOfContents, float cost,String summery)
 	{
 		this.bookId=bookId;
 		this.title=title;
@@ -25,15 +28,15 @@ public class Book {
 		this.tableOfContents=tableOfContents;
 		this.cost=cost;
 		this.summery=summery;
-		this.author=author;
 	}
 	public Book()
 	{
 		this.bookId=null;
 		this.title=null;
-		this.language=null;
+		this.language=0;
 		this.tableOfContents=null;
 		this.cost=0;
+		
 	}
 	public Book(Book b){
 		this.bookId=b.getBookId();
@@ -45,7 +48,6 @@ public class Book {
 		this.searchCount=b.getSearchCount();
 		this.visable=b.isVisable();
 		this.porcheseCount=b.getPorcheseCount();
-		this.author=b.getAuthor();
 		
 	}
 	private void UpdateVisableStatus(boolean vis)
@@ -61,7 +63,20 @@ public class Book {
 		return bookId;
 	}
 	public void setBookId(String bookId) {
-		this.bookId = bookId;
+		//this.bookId = bookId;
+		System.out.println(bookId);
+	}
+	public ArrayList<Integer> getSubjectsId() {
+		return subjects_id;
+	}
+	public void setSubjectsId(ArrayList<Integer> subjects_id) {
+		this.subjects_id = subjects_id;
+	}
+	public ArrayList<Integer> getAuthorsId() {
+		return authors_id;
+	}
+	public void setAuthorsId(ArrayList<Integer> authors_id) {
+		this.authors_id = authors_id;
 	}
 	public String getTitle() {
 		return title;
@@ -69,10 +84,10 @@ public class Book {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getLanguage() {
+	public int getLanguage() {
 		return language;
 	}
-	public void setLanguage(String language) {
+	public void setLanguage(int language) {
 		this.language = language;
 	}
 	public String getTableOfContents() {
@@ -111,28 +126,24 @@ public class Book {
 	public void setSummery(String summery) {
 		this.summery = summery;
 	}
-	public int getAuthor() {
-		return author;
-	}
-	public void setAuthor(int author) {
-		this.author = author;
-	}
+
+
 	@Override
 	public String toString() {
 		return "Book [bookId=" + bookId + ", title=" + title + ", language="
 				+ language + ", tableOfContents=" + tableOfContents + ", cost="
-				+ cost +"summery"+summery+ ", searchCount=" + searchCount + ", visable="
+				+ cost +", summery= "+summery+ ", searchCount=" + searchCount + ", visable="
 				+ visable + ", porcheseCount=" + porcheseCount + "]";
 	}
 	public void clear(){
 		this.bookId=null;
 		this.title=null;
-		this.language=null;
+		this.language=0;
 		this.tableOfContents=null;
 		this.cost=0;
 		this.summery=null;
 		this.searchCount=0;
-		this.visable=false;
+		this.visable=true;
 		this.porcheseCount=0;
 	}
 	

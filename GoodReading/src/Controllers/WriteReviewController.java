@@ -75,7 +75,7 @@ public class WriteReviewController extends Main_con{
 		  tmpBook.clear();
 		  tmpBook.setBookId(((ArrayList<String>) message).get(1));
 		  tmpBook.setTitle(((ArrayList<String>) message).get(2));
-		  tmpBook.setLanguage(((ArrayList<String>) message).get(3));
+		  tmpBook.setLanguage(Integer.valueOf(((ArrayList<String>) message).get(3)));
 		  tmpBook.setSummery(((ArrayList<String>) message).get(4));
 
 

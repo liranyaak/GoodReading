@@ -13,18 +13,19 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 import Controllers.addBookController;
+import entity.Author;
 import entity.Subject;
 
-public class AddBookCatRangGui extends JPanel{
+public class AddBookAuthors extends JPanel{
 	
 	public static JCheckBox chckbxNewCheckBox;
-	public ArrayList<Integer> subjects_id;
+	public ArrayList<Integer> authors_id;
 	public static  ArrayList<JCheckBox> checkBoxes;
 
 	public JPanel panel = new JPanel();
 	public JButton BackButton;
-	public JButton NextButton_authors;
-	public AddBookCatRangGui() {
+	public JButton AddButton;
+	public AddBookAuthors() {
 	
 	    checkBoxes = new ArrayList<JCheckBox>();
 
@@ -33,16 +34,16 @@ public class AddBookCatRangGui extends JPanel{
 		
 		
 		
-		JLabel label = new JLabel("Select Subject");
+		JLabel label = new JLabel("Select Authors");
 		label.setBounds(223, 28, 403, 43);
 		label.setFont(new Font("Stencil", Font.PLAIN, 42));
 		add(label);
 		
 		
-		NextButton_authors = new JButton("Next");
-		NextButton_authors.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		NextButton_authors.setBounds(567, 568, 171, 41);
-		add(NextButton_authors);
+		AddButton = new JButton("Add Book");
+		AddButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		AddButton.setBounds(567, 568, 171, 41);
+		add(AddButton);
 		
 		
 		BackButton = new JButton("Back");
@@ -50,13 +51,13 @@ public class AddBookCatRangGui extends JPanel{
 		BackButton.setBounds(13, 568, 171, 41);
 		add(BackButton);
 	}
-public void setSubjectsList(ArrayList<Subject> insubject){
+public void setAuthorsList(ArrayList<Author> authors){
 		
 	int j=0;
-	for(int i=0; i< insubject.size(); i++ ){
+	for(int i=0; i< authors.size(); i++ ){
 	chckbxNewCheckBox = new JCheckBox();
 	//String subject_name = myarr.get(i).getName();
-	chckbxNewCheckBox.setText(insubject.get(i).getName());
+	chckbxNewCheckBox.setText(authors.get(i).getFullName());
 	chckbxNewCheckBox.setBounds(62, 126+j, 113, 25);
 	chckbxNewCheckBox.setHorizontalAlignment(SwingConstants.LEFT);
 	checkBoxes.add(chckbxNewCheckBox);

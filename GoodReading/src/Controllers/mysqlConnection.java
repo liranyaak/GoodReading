@@ -42,7 +42,48 @@ public static ArrayList<String> select(String table,String where, Connection con
 	 Statement stmt = con.createStatement();
 	 ResultSet rs;
 	 String query = "SELECT * FROM "+table+" WHERE "+where+";";
-	System.out.println("[ DEBUG ] :: SELECT * FROM "+table+" WHERE "+where+";");
+	 System.out.println("[ DEBUG ] :: SELECT * FROM "+table+" WHERE "+where+";");
+
+	 rs = stmt.executeQuery(query);
+	 ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
+	 int colums = rsmd.getColumnCount();
+    // System.out.println(colums);
+
+	 try {
+		 rs.last();
+	    
+		 int totalRows = rs.getRow();
+	        rs.beforeFirst();
+	        result.add(String.valueOf(totalRows));
+		 if(totalRows>0)
+		 {
+			 while(rs.next()){
+				 for( int i =1;i<=colums;i++ )
+				 {
+				result.add(rs.getString(i));
+				 }	
+			 }
+			 System.out.println("select: "+result.toString());
+		 }
+		 else
+			 System.out.println("not found");
+	 }
+	 
+	    catch(Exception ex)  {}
+	 rs.close();
+	}
+	catch (SQLException e) {e.printStackTrace();}
+	return result;
+	}
+
+public static ArrayList<String> select_var(String var,String table,String where, Connection con){
+	ArrayList<String> result = new ArrayList<String>();
+	try 
+	{
+	 Statement stmt = con.createStatement();
+	 ResultSet rs;
+	 String query = "SELECT "+var+" * FROM "+table+" WHERE "+where+";";
+	 System.out.println("[ DEBUG ] :: SELECT * FROM "+table+" WHERE "+where+";");
 
 	 rs = stmt.executeQuery(query);
 	 ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
@@ -116,10 +157,16 @@ public static int insert(String table,String iKey,String iValue, Connection con)
 	try
     {
 		Statement stmt = con.createStatement();
-		String sql = "INSERT INTO " + table + "(" + iKey +") VALUES ("+ iValue +")";
-		System.out.println("[ DEBUG ] :: INSERT INTO " + table + "(" + iKey +") VALUES ("+ iValue +")");
+		String sql = "INSERT INTO " + table + "(" + iKey +") VALUES "+ iValue +"";
+		System.out.println("[ DEBUG ] :: INSERT INTO " + table + "(" + iKey +") VALUES "+ iValue +"");
 
 		result = stmt.executeUpdate(sql);
+		
+		ResultSet rs = stmt.getGeneratedKeys();
+        if (rs.next()){
+        	result=rs.getInt(1);
+        }
+        
     }
     catch (SQLException e)
     {

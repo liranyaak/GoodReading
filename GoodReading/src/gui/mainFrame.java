@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -30,6 +32,17 @@ import javax.swing.event.AncestorListener;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 import Controllers.*;
 
 import java.awt.event.ActionListener;
@@ -37,13 +50,18 @@ import java.awt.event.ActionEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 public class mainFrame extends JFrame {
     private User user;
     private Book book;
+    private ArrayList<Language> languages;
     private ArrayList<Book> books;
-    private ArrayList<Subject> subjects;
+	public ArrayList<Subject> subjects;
+	public ArrayList<Author> authors;
     private ArrayList<Review> reviews;
+    private List<String> lang_combovalues;
     private int selection=-1;
 
     public String id="0";
@@ -85,14 +103,17 @@ public class mainFrame extends JFrame {
 	private SearchBookResultGui reportSearchBookResultGui;
 	private ReportBookDisplayGui reportBookDisplayGui;
 	private AddBookCatRangGui addBookCatRangGui;
+	private AddBookAuthors addBookAuthors;
 	private About_us about_us;
-	
 	private int permmision=0;
 	public mainFrame() {
 		
 		super();
 		user=new User();
 		books=new ArrayList<Book>();
+		subjects=new ArrayList<Subject>();
+		authors=new ArrayList<Author>();
+		
 		Checks check=new Checks();
 		setSize(750,650);
 		///////////status represnet 1-reader,2-editor,3-librerian,4-libarary mananger
@@ -134,6 +155,7 @@ public class mainFrame extends JFrame {
 	    reportSearchBookResultGui=new SearchBookResultGui();
 	    reportBookDisplayGui=new ReportBookDisplayGui();
 	    addBookCatRangGui=new AddBookCatRangGui();
+	    addBookAuthors=new AddBookAuthors();
 		add(login_gui); // place the first panel in the frame 
 		add(signin_gui);
 		
@@ -836,6 +858,17 @@ public class mainFrame extends JFrame {
       		@Override
       		public void actionPerformed(ActionEvent e) {
       			// TODO Auto-generated method stub
+      			addBookController addBook_con = new addBookController();
+    			addBook_con.getLangList();
+    			languages = addBook_con.languages;
+    			lang_combovalues = new ArrayList<String>();
+   				lang_combovalues.add("Choose");
+    			for(int i=0; i<languages.size();i++)
+    				lang_combovalues.add(languages.get(i).getName());
+    			String[] Langcomboarr = new String[ lang_combovalues.size() ];
+    			Langcomboarr = lang_combovalues.toArray( Langcomboarr );
+    			addBookGui.comboBox.setModel(new DefaultComboBoxModel(Langcomboarr));
+    			
       			add(addBookGui);
       			addBookGui.setVisible(true);
       			librarian_gui.setVisible(false);
@@ -933,75 +966,81 @@ public class mainFrame extends JFrame {
        });
        
        /////////////////////add book button//////////////////////////////////
-       addBookGui.NextButton.addActionListener(new ActionListener() {
+       addBookGui.NextButton_category.addActionListener(new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			//
-			//book = new Book("",addBookGui.textPaneBookName.getText(), addBookGui.textPaneLanguage.getText(), addBookGui.textAreaTableOfContent.getText(), Float.parseFloat(addBookGui.textPaneCost.getText()), addBookGui.textAreaSummery.getText(), Integer.valueOf(addBookGui.textPaneAuters.getText()));
-			//addBookGui.setVisible(false);
+
 			
-			/*
-			JCheckBox checkBox1 = new JCheckBox();
-		    checkBox1.setText("1");
-		    checkBox1.setBounds(62, 88, 113, 25);
-		    addBookCatRangGui.chckbxNewCheckBox.addActionListener(e -> java.lang.System.out.println(checkBox1.getText() + " selection changed"));
-
-		    addBookCatRangGui.panel.add(checkBox1);
-		    
-			JCheckBox checkBox2 = new JCheckBox();
-
-			checkBox2.setText("2");
-			checkBox2.setBounds(62, 126, 113, 25);
-		    addBookCatRangGui.chckbxNewCheckBox.addActionListener(e -> java.lang.System.out.println(checkBox2.getText() + " selection changed"));
-
-		    addBookCatRangGui.panel.add(checkBox2);
-
-			JCheckBox checkBox3 = new JCheckBox();
-
-			checkBox3.setText("3");
-			checkBox3.setBounds(62, 140, 113, 25);
-
-		    addBookCatRangGui.chckbxNewCheckBox.addActionListener(e -> java.lang.System.out.println(checkBox3.getText() + " selection changed"));
-
-		    addBookCatRangGui.panel.add(checkBox3);
-*/
-
-			book = new Book("", "title", "language", "tableOfContents", 10, "summery", 1);
-			addBookController addBook_con = new addBookController(book);
-			subjects = addBook_con.getSubjectsList();
-			addBookCatRangGui.setSubjectsList(subjects);
+			book = new Book("",addBookGui.textPaneBookName.getText(), addBookGui.comboBox.getSelectedIndex()+1, addBookGui.textAreaTableOfContent.getText(), Float.parseFloat(addBookGui.textPaneCost.getText()), addBookGui.textAreaSummery.getText());
+			addBookController addBook_con = new addBookController();
+			addBook_con.getSubjectsList();
+			subjects = addBook_con.subjects;
+			addBookCatRangGui.setSubjectsList(addBook_con.subjects);
+			/// build the subjects checkboxs
    			add(addBookCatRangGui);
    			addBookGui.setVisible(false);
    			addBookCatRangGui.setVisible(true); 
    			
-			//addBook_con = new addBookController(book,subjects);
-   			//for(int i=0; i< subjects.size();i++){
-   				
-   				//Component temporaryLostComponent;
-			//	addBookCatRangGui.chckbxNewCheckBox.add("jashdjsahd", temporaryLostComponent);
-   				
-   				//addBookCatRangGui.chckbxNewCheckBox.setText(subjects.get(i).getName());
-   				//}
-			
-			 
-			//addBookCatRangGui.chckbxNewCheckBox.setText();
+	
 		}
 	});
-       
-       
-       /////////////////////// add book select category :: back button  ///////////////
-       addBookCatRangGui.BackButton.addActionListener(new ActionListener() {
+       	addBookCatRangGui.NextButton_authors.addActionListener(new ActionListener() {
+
+       		@Override
+       		public void actionPerformed(ActionEvent e) {
+
+    			addBookController addBook_con = new addBookController();
+       			//System.out.println(addBook_con.subjects_id);
+
+       			addBook_con.getAuthorList();
+       			authors = addBook_con.authors;
+    			addBookAuthors.setAuthorsList(addBook_con.authors);
+       			add(addBookAuthors);
+       			addBookAuthors.setVisible(true);
+       			addBookCatRangGui.setVisible(false);
+       		}
+       	});
+       	addBookCatRangGui.BackButton.addActionListener(new ActionListener() {
+
+       		@Override
+       		public void actionPerformed(ActionEvent e) {
+       			// TODO Auto-generated method stub
+    		//	addBookController addBook_con = new addBookController(book,subjects);
+       			addBookGui.setVisible(true);
+       			addBookCatRangGui.setVisible(false);
+       		}
+       	});
+       	
+       	addBookAuthors.BackButton.addActionListener(new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			addBookCatRangGui.setVisible(false);
-			addBookGui.setVisible(true);
+			
+			addBookCatRangGui.setVisible(true);
+			addBookAuthors.setVisible(false);
 			
 		}
 	});
+       	
+       	addBookAuthors.AddButton.addActionListener(new ActionListener() {
+
+       		@Override
+       		public void actionPerformed(ActionEvent e) {
+
+    			addBookController addBook_con = new addBookController();
+    			addBook_con.getSelectedAuthors(authors);
+    			addBook_con.getSelectedSubjects(subjects);
+
+       			//System.out.println(addBook_con.authors_id);
+
+    			
+    			addBook_con.InsertBook(book);
+       			addBookAuthors.setVisible(true);
+       			addBookCatRangGui.setVisible(false);
+       		}
+       	});
        
        ///////////////////////payment request//////////////////
        paymantRequstListGui.btnBack.addActionListener(new ActionListener() {
@@ -1211,7 +1250,19 @@ public class mainFrame extends JFrame {
        	      		
        	      		@Override
        	      		public void actionPerformed(ActionEvent e) {
-       	      			// TODO Auto-generated method stub
+       	      		addBookController addBook_con = new addBookController();
+
+
+       	      	addBook_con.getLangList();
+    			languages = addBook_con.languages;
+    			lang_combovalues = new ArrayList<String>();
+   				lang_combovalues.add("Choose");
+    			for(int i=0; i<languages.size();i++)
+    				lang_combovalues.add(languages.get(i).getName());
+    			String[] Langcomboarr = new String[ lang_combovalues.size() ];
+    			Langcomboarr = lang_combovalues.toArray( Langcomboarr );
+    			addBookGui.comboBox.setModel(new DefaultComboBoxModel(Langcomboarr));
+    			
        	      			add(addBookGui);
        	      			addBookGui.setVisible(true);
        	      		libraryManager_gui.setVisible(false);

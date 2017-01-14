@@ -85,6 +85,19 @@ public class EchoServer extends AbstractServer
 		  }
 		  catch (Exception localException2) {}
 	     }
+	     else if(type.equals("select_var")){
+			  try 
+		      { 
+				String var				 = ((ArrayList<String>) msg).get(1);
+				String table			 = ((ArrayList<String>) msg).get(2);
+				String where 			 = ((ArrayList<String>) msg).get(3);
+				ArrayList<String> result = mysqlConnection.select_var(var,table, where, mysqlcon.conn);
+				
+			  System.out.println(result.get(0)+" rows selected");
+			  client.sendToClient(result); 
+			  }
+			  catch (Exception localException2) {}
+		     }
 	     else if(type.equals("update")){
 	    	try 
 		     { 
@@ -108,12 +121,12 @@ public class EchoServer extends AbstractServer
 				  String key = ((ArrayList<String>) msg).get(2);
 				  String value = ((ArrayList<String>) msg).get(3);
 						   
-					  int count = mysqlConnection.insert(table, key, value, mysqlcon.conn);
-					  if(count>0)
-						  System.out.println(count +" rows inserted");
+					  int index = mysqlConnection.insert(table, key, value, mysqlcon.conn);
+					  if(index>0)
+						  System.out.println("The id of the inserted row is: "+index );
 					  else
 						  System.out.println("Nothing inserted");
-					  client.sendToClient(count);
+					  client.sendToClient(index);
 					  }
 					  catch (Exception localException2) {
 				
